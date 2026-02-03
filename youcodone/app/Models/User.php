@@ -14,6 +14,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasChildren, HasRoles;
     protected $guard_name = 'web';
+    
     protected $childTypes = [
         'client' => Client::class,
         'restaurateur' => Restaurateur::class,
