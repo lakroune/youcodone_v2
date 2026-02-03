@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class ProfileController extends Controller
 {
@@ -37,6 +39,23 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    /**
+     * Update the user's avatar.
+     */
+    public function updateAvatar(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'avatar' => ['required', 'image', 'max:2048', 'mimes:jpeg,png,jpg,gif'],
+        ]);
+
+        $path = $request->file('avatar')->store('avatars', 'public');
+
+        Auth::user()->update([
+            'avatar' => $path,
+        ]);
+
+        return Redirect::route('profile.edit')->with('status', 'avatar-updated');
+    }
     /**
      * Delete the user's account.
      */

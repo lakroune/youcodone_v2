@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -10,31 +9,56 @@ use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        Permission::firstOrCreate(['name' => 'favori restaurant']);
-        permission::firstOrCreate(['name' => 'ajouter restaurants']);
-        permission::firstOrCreate(['name' => 'modifier restaurants']);
-        permission::firstOrCreate(['name' => 'supprimer restaurants']);
-        permission::firstOrCreate(['name' => 'suspendre utilisateurs']);
-        permission::firstOrCreate(['name' => 'activer utilisateurs']);
+
+        // Communes
+        Permission::firstOrCreate(['name' => 'modifier profil']);
+
+        // Client
+        Permission::firstOrCreate(['name' => 'rechercher restaurants']);
+        Permission::firstOrCreate(['name' => 'consulter details restaurant']);
+        Permission::firstOrCreate(['name' => 'ajouter favoris']);
+        Permission::firstOrCreate(['name' => 'reserver table']);
+
+        // Restaurateur
+        Permission::firstOrCreate(['name' => 'creer restaurant']);
+        Permission::firstOrCreate(['name' => 'modifier propre restaurant']);
+        Permission::firstOrCreate(['name' => 'supprimer propre restaurant']);
         Permission::firstOrCreate(['name' => 'gerer menus']);
 
+        // Admin
+        Permission::firstOrCreate(['name' => 'supprimer nimporte quel restaurant']);
+        Permission::firstOrCreate(['name' => 'acceder dashboard admin']);
+        Permission::firstOrCreate(['name' => 'gerer utilisateurs']);
+
+
+        // --- ROLES ---
+        $admin = Role::firstOrCreate(['name' => 'admin']);
         $restaurateur = Role::firstOrCreate(['name' => 'restaurateur']);
         $client = Role::firstOrCreate(['name' => 'client']);
-        $admin = Role::firstOrCreate(['name' => 'admin']);
 
-        $restaurateur->givePermissionTo('ajouter restaurants');
-        $restaurateur->givePermissionTo('modifier restaurants');
-        $restaurateur->givePermissionTo('supprimer restaurants');
-        $restaurateur->givePermissionTo('gerer menus');
-        $client->givePermissionTo('favori restaurant');
-        $admin->givePermissionTo('suspendre utilisateurs');
-        $admin->givePermissionTo('activer utilisateurs');
+        // Admin :  
+        $admin->givePermissionTo(Permission::all());
+
+        // Restaurateur
+        $restaurateur->givePermissionTo([
+            'modifier profil',
+            'creer restaurant',
+            'modifier propre restaurant',
+            'supprimer propre restaurant',
+            'gerer menus'
+        ]);
+
+        // Client
+        $client->givePermissionTo([
+            'modifier profil',
+            'rechercher restaurants',
+            'consulter details restaurant',
+            'ajouter favoris',
+            'reserver table'
+        ]);
     }
 }

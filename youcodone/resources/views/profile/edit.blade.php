@@ -16,6 +16,7 @@
                     <form action="{{ route('profile.avatar.update') }}" method="POST" enctype="multipart/form-data"
                         id="avatarForm">
                         @csrf
+                        @method('PUT')
                         <label
                             class="absolute bottom-4 right-4 bg-[#FF5F00] p-3 rounded-full cursor-pointer hover:scale-110 transition-all shadow-xl shadow-black">
                             @if (Auth::user()->avatar)
