@@ -47,13 +47,10 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'avatar' => ['required', 'image', 'max:2048', 'mimes:jpeg,png,jpg,gif'],
         ]);
-
         $path = $request->file('avatar')->store('avatars', 'public');
-
         Auth::user()->update([
             'avatar' => $path,
         ]);
-
         return Redirect::route('profile.edit')->with('status', 'avatar-updated');
     }
     /**

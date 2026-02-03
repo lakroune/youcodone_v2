@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Restaurant;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
+use Symfony\Component\HttpFoundation\Request;
 
 class RestaurantController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Restaurant::query();
+
+        // البحث حسب المدينة، نوع المطبخ، أو الاسم (حسب الـ US)
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('city', 'like', '%' . $request->search . '%')
+                ->orWhere('cuisine_type', 'like', '%' . $request->search . '%');
+        }
+
+        $restaurants = $query->latest()->get();
+
+        return view('home', compact('restaurants'));
     }
 
     /**

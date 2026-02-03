@@ -14,8 +14,22 @@
                 <a href="{{ route('dashboard') }}" class="text-[10px] font-black uppercase tracking-[3px] {{ request()->routeIs('dashboard') ? 'text-[#FF5F00]' : 'text-gray-500 hover:text-white' }} transition-all">
                     Tableau de bord
                 </a>
-                <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Réservations</a>
-                <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Exploration</a>
+
+                @role('client')
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Exploration</a>
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Mes Favoris</a>
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Mes Réservations</a>
+                @endrole
+
+                @role('restaurateur')
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Mes Restaurants</a>
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Réservations Reçues</a>
+                @endrole
+
+                @role('admin')
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-[#FF5F00] hover:text-white transition-all">Gestion Users</a>
+                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Stats Globales</a>
+                @endrole
             </div>
 
             <div class="hidden md:flex items-center gap-6">
@@ -23,19 +37,41 @@
                     <button @click="userMenu = !userMenu" @click.away="userMenu = false" class="flex items-center gap-3 group outline-none">
                         <div class="text-right">
                             <p class="text-[10px] font-black uppercase tracking-widest text-white group-hover:text-[#FF5F00] transition-colors">{{ Auth::user()->username }}</p>
-                            <p class="text-[8px] font-bold uppercase tracking-widest text-gray-600">Mon Compte</p>
+                            <p class="text-[7px] font-bold uppercase tracking-[2px] text-[#FF5F00] opacity-80">{{ Auth::user()->roles->first()->name ?? 'User' }}</p>
                         </div>
-                        <div class="w-10 h-10 rounded-full border border-white/10 p-1 group-hover:border-[#FF5F00] transition-all">
-                            <img src="https://ui-avatars.com/api/?name={{ Auth::user()->username }}&background=FF5F00&color=fff" class="w-full h-full rounded-full grayscale hover:grayscale-0 transition-all" alt="Avatar">
+                        <div class="w-10 h-10 rounded-full border border-white/10 p-1 group-hover:border-[#FF5F00] transition-all overflow-hidden">
+                            <img src="{{ Auth::user()->avatar ? asset('storage/'.Auth::user()->avatar) : 'https://ui-avatars.com/api/?name='.Auth::user()->username.'&background=FF5F00&color=fff' }}" 
+                                 class="w-full h-full rounded-full object-cover grayscale hover:grayscale-0 transition-all" alt="Avatar">
                         </div>
                     </button>
 
-                    <div x-show="userMenu" x-transition class="absolute right-0 mt-4 w-48 bg-[#111] border border-white/5 rounded-xl shadow-2xl py-2 z-50">
-                        <a href="{{ route('profile.edit') }}" class="block px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#FF5F00] hover:bg-white/5 transition-all">Profil Settings</a>
+                    <div x-show="userMenu" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         class="absolute right-0 mt-4 w-56 bg-[#0E0E0E] border border-white/5 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] py-3 z-50">
+                        
+                        <div class="px-6 py-2 mb-2">
+                            <p class="text-[8px] font-bold text-gray-600 uppercase tracking-[2px]">Options</p>
+                        </div>
+
+                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#FF5F00] hover:bg-white/5 transition-all">
+                             Profil Settings
+                        </a>
+
+                        @role('restaurateur')
+                        <a href="#" class="flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#FF5F00] hover:bg-white/5 transition-all">
+                             Ajouter Restaurant
+                        </a>
+                        @endrole
+
                         <div class="h-[1px] bg-white/5 my-2 mx-4"></div>
+                        
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="w-full text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-all">Déconnexion</button>
+                            <button type="submit" class="w-full text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-all">
+                                Déconnexion
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -51,8 +87,15 @@
     </div>
 
     <div x-show="open" x-transition class="md:hidden bg-black border-t border-white/5 px-6 py-10 space-y-8">
-        <a href="{{ route('dashboard') }}" class="block text-2xl font-black italic uppercase tracking-tighter text-white">Dashboard</a>
-        <a href="#" class="block text-2xl font-black italic uppercase tracking-tighter text-white">Réservations</a>
+        @role('client')
+            <a href="#" class="block text-2xl font-black italic uppercase tracking-tighter text-white">Exploration</a>
+            <a href="#" class="block text-2xl font-black italic uppercase tracking-tighter text-white">Favoris</a>
+        @endrole
+        
+        @role('restaurateur')
+            <a href="#" class="block text-2xl font-black italic uppercase tracking-tighter text-white">Mes Restaurants</a>
+        @endrole
+
         <div class="h-[1px] bg-white/5 w-full"></div>
         <a href="{{ route('profile.edit') }}" class="block text-sm font-bold uppercase tracking-widest text-[#FF5F00]">Mon Profil</a>
         <form method="POST" action="{{ route('logout') }}">
@@ -60,4 +103,4 @@
             <button type="submit" class="block text-sm font-bold uppercase tracking-widest text-red-600">Log Out</button>
         </form>
     </div>
-</nav> 
+</nav>
