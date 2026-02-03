@@ -13,8 +13,8 @@ class Plat extends Model
         'categorie_id',
     ];
 
-    public function categorie()
+    public function menu()
     {
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Menu::class, 'menu_id');
     }
 }

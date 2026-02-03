@@ -6,12 +6,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Parental\HasChildren;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use HasChildren;
 
+    protected $childTypes = [
+        'client' => Client::class,
+        'restaurateur' => Restaurateur::class,
+    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -23,15 +29,6 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function restaurateur()
-    {
-        return $this->hasOne(Restaurateur::class);
-    }
-
-    public function client()
-    {
-        return $this->hasOne(Client::class);
-    }
     /**
      * The attributes that should be hidden for serialization.
      *

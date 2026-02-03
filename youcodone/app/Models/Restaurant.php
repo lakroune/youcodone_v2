@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Restaurant extends Model
 {
+    use HasFactory;
+
     protected $table = 'restaurants';
 
     protected $fillable = [
@@ -17,30 +20,37 @@ class Restaurant extends Model
         'type_cuisine_id',
         'user_id',
     ];
+
+
+    public function restaurateur()
+    {
+        return $this->belongsTo(Restaurateur::class, 'user_id');
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, 'favoris', 'restaurant_id', 'user_id')->withTimestamps();
+    }
+
+    public function typeCuisine()
+    {
+        return $this->belongsTo(TypeCuisine::class, 'type_cuisine_id');
+    }
+
     public function horaires()
     {
         return $this->hasMany(Horaire::class);
     }
 
+
     public function menus()
     {
-        return $this->hasMany(Menu::class);
+        return $this->hasOne(Menu::class);
     }
+
+
     public function photos()
     {
         return $this->hasMany(Photo::class);
-    }
-
-    public function typeCuisine()
-    {
-        return $this->belongsTo(TypeCuisine::class);
-    }
-
-    
-
-    public function restaurateur()
-    {
-        // return $this->belongsTo(User::class, 'user_id');
-        return $this->belongsTo(User::class);
     }
 }

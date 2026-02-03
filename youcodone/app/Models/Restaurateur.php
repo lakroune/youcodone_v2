@@ -3,12 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Parental\HasParent;
 
 class Restaurateur extends User
 {
-    protected $table = 'resturateurs';
-    public function user()
+    use HasParent;
+    protected $fillable = [
+        'username',
+        'email',
+        'password',
+        'type',
+        'avatar',
+    ];
+
+    public function restaurants()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Restaurant::class);
     }
 }
