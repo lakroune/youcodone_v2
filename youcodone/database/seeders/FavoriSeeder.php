@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Menu;
+use App\Models\Favori;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class MenuSeeder extends Seeder
+class FavoriSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-       Menu::factory()->count(10)->create();
+        Favori::factory()->count(10)->create();
     }
 }

@@ -14,6 +14,8 @@ class Restaurant extends Model
         'telephone_restaurant',
         'description_restaurant',
         'capacite_restaurant',
+        'type_cuisine_id',
+        'user_id',
     ];
     public function horaires()
     {
@@ -33,7 +35,9 @@ class Restaurant extends Model
     {
         return $this->belongsTo(TypeCuisine::class);
     }
+
     
+
     public function restaurateur()
     {
         // return $this->belongsTo(User::class, 'user_id');

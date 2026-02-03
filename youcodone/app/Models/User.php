@@ -23,6 +23,15 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function restaurateur()
+    {
+        return $this->hasOne(Restaurateur::class);
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

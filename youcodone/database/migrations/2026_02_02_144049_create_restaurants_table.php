@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('telephone_restaurant');
             $table->string('description_restaurant')->nullable();
             $table->string('capacite_restaurant')->nullable();
+            $table->foreignId('type_cuisine_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

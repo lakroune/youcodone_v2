@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurateur extends User
+class Admin extends Model
 {
-    protected $table = 'resturateurs';
+    protected $table = 'admins';
     public function user()
     {
         return $this->belongsTo(User::class);
