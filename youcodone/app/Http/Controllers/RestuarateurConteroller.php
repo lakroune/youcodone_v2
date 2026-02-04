@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class RestuarateurConteroller extends Controller
@@ -35,7 +36,7 @@ class RestuarateurConteroller extends Controller
      */
     public function show(string $id)
     {
-        //
+      
     }
 
     /**

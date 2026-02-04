@@ -14,17 +14,8 @@ class RestaurantController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Restaurant::query();
-
-        // if ($request->has('search')) {
-        //     $query->where('name', 'like', '%' . $request->search . '%')
-        //         ->orWhere('city', 'like', '%' . $request->search . '%')
-        //         ->orWhere('cuisine_type', 'like', '%' . $request->search . '%');
-        // }
-
-        // $restaurants = $query->latest()->get();
-
-        return view('home', compact('restaurants'));
+        $restaurant = Restaurant::all();
+        return view('restaurant.index', compact('restaurant'));
     }
 
     /**
@@ -48,7 +39,8 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        //
+        $restuarant = Restaurant::findOrFail($restaurant->id);
+        return view('restaurant.show', compact('restuarant'));
     }
 
     /**

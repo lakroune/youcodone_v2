@@ -21,6 +21,12 @@
                 box-shadow: 0 0 15px rgba(255, 95, 0, 0.1) !important;
             }
             .avatar-ring { border: 3px solid #FF5F00; padding: 4px; }
+            
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); }
+    
         </style>
     </head>
     <body class="font-sans antialiased bg-[#0A0A0A] text-white">
