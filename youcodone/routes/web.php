@@ -29,7 +29,7 @@ Route::middleware('client')->group(function () {
 
 Route::middleware('restaurateur')->group(function () {
     Route::resource('restaurants', RestaurantController::class);
-    Route::get('/dashboard', [DashboardConteroller::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardConteroller::class, 'index'])->name('restaurateur.dashboard');
 });
 
 

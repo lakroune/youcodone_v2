@@ -117,11 +117,18 @@
                             class="bg-[#FF5F00] hover:bg-[#E65600] text-white text-[11px] font-black px-10 py-5 rounded-xl uppercase tracking-[3px] transition-all transform active:scale-95 shadow-2xl shadow-[#FF5F00]/20">
                             Save Changes
                         </button>
-
-                        <a href="{{ route('dashboard') }}"
+                        @role('restaurateur')
+                        <a href="{{ route('restaurateur.dashboard') }}"
                             class="inline-flex justify-center items-center bg-white/5 hover:bg-white/10 text-white text-[11px] font-black px-10 py-5 rounded-xl uppercase tracking-[3px] transition-all border border-white/5">
                             Cancel
                         </a>
+                        @endrole
+                        @role('client')
+                        <a href="{{ route('home') }}"
+                        class="inline-flex justify-center items-center bg-white/5 hover:bg-white/10 text-white text-[11px] font-black px-10 py-5 rounded-xl uppercase tracking-[3px] transition-all border border-white/5">
+                            Cancel
+                        </a>
+                        @endrole
 
                         @if (session('status') === 'profile-updated')
                             <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 3000)"

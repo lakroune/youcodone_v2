@@ -47,6 +47,11 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        return redirect(route('home', absolute: false));
+        if ($user->role === 'restaurateur') {
+            return redirect(route('restaurateur.dashboard', absolute: false));
+        }
+        else {
+            return redirect(route('home', absolute: false));
+        }
     }
 }

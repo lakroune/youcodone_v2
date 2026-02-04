@@ -11,7 +11,8 @@
             </div>
 
             <div class="hidden md:flex items-center space-x-12">
-                <a href="{{ route('dashboard') }}" class="text-[10px] font-black uppercase tracking-[3px] {{ request()->routeIs('dashboard') ? 'text-[#FF5F00]' : 'text-gray-500 hover:text-white' }} transition-all">
+            
+                <a href="{{ route('restaurateur.dashboard') }}" class="text-[10px] font-black uppercase tracking-[3px] {{ request()->routeIs('dashboard') ? 'text-[#FF5F00]' : 'text-gray-500 hover:text-white' }} transition-all">
                     Tableau de bord
                 </a>
 

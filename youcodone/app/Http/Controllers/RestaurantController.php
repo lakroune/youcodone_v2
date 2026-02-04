@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Restaurant;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
+use App\Models\TypeCuisine;
 use Symfony\Component\HttpFoundation\Request;
 
 class RestaurantController extends Controller
@@ -23,7 +24,8 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        //
+        $types_cuisines = TypeCuisine::all();
+        return view('restaurant.create', compact('types_cuisines'));
     }
 
     /**

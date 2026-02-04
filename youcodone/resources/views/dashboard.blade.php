@@ -1,71 +1,74 @@
 <x-app-layout>
-    <div class="relative bg-black py-20 border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-5xl md:text-7xl font-black italic uppercase tracking-tighter text-white mb-6">
-                Trouvez votre <span class="text-[#FF5F00]">Table.</span>
-            </h1>
-            
-            <form action="{{ route('home') }}" method="GET" class="max-w-3xl mx-auto mt-10">
-                <div class="flex flex-col md:flex-row gap-4 p-2 bg-[#111] border border-white/10 rounded-2xl">
-                    <input type="text" name="search" placeholder="Ville, Cuisine, Nom..." 
-                           class="flex-1 bg-transparent border-none text-white focus:ring-0 px-6 py-4"
-                           value="{{ request('search') }}">
-                    <button type="submit" class="bg-[#FF5F00] text-white font-black uppercase tracking-widest px-10 py-4 rounded-xl hover:bg-white hover:text-black transition-all">
-                        Rechercher
-                    </button>
+    <div class="bg-black min-h-screen pb-20">
+        <div class="border-b border-white/5 py-12 bg-[#050505]">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+                <div>
+                    <p class="text-[#FF5F00] font-black uppercase tracking-[4px] text-[10px] mb-2">Espace Restaurateur</p>
+                    <h1 class="text-4xl font-black italic uppercase text-white tracking-tighter">Tableau de <span class="text-[#FF5F00]">Bord.</span></h1>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-6 py-20">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <p class="text-[#FF5F00] font-black uppercase tracking-[4px] text-xs mb-2">Exploration</p>
-                <h2 class="text-white text-3xl font-black uppercase italic">Restaurants Disponibles</h2>
+                
+                <div class="flex gap-4">
+                    <div class="bg-[#111] border border-white/5 p-6 rounded-2xl min-w-[160px]">
+                        <p class="text-gray-500 text-[8px] font-black uppercase tracking-widest mb-1">Total Restaurants</p>
+                        <p class="text-2xl font-black text-white italic">{{ $restaurants->count() }}</p>
+                    </div>
+                    <a href="{{ route('restaurants.create') }}" class="bg-[#FF5F00] hover:bg-white text-black font-black uppercase text-[10px] tracking-widest px-8 py-6 rounded-2xl transition-all flex items-center">
+                        + Ajouter Restaurant
+                    </a>
+                </div>
             </div>
-            <span class="text-gray-600 text-xs font-bold uppercase tracking-widest">{{ $restaurants->count() }} Résultats</span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach($restaurants as $restaurant)
-                <div class="group bg-[#0A0A0A] border border-white/5 rounded-3xl overflow-hidden hover:border-[#FF5F00]/50 transition-all duration-500">
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="{{ asset('storage/' . $restaurant->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        
-                        <button class="absolute top-6 right-6 p-3 bg-black/50 backdrop-blur-md rounded-full text-white hover:text-[#FF5F00] transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                        </button>
+        <div class="max-w-7xl mx-auto px-6 mt-12">
+            
+            <h2 class="text-white text-[10px] font-black uppercase tracking-[4px] mb-8">Mes Établissements ({{ $restaurants->count() }})</h2>
 
-                        <div class="absolute bottom-4 left-6">
-                            <span class="bg-[#FF5F00] text-white text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
-                                {{ $restaurant->cuisine_type }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-white text-xl font-black uppercase italic tracking-tight">{{ $restaurant->name }}</h3>
-                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest">{{ $restaurant->city }}</span>
-                        </div>
-                        
-                        <p class="text-gray-500 text-xs leading-relaxed mb-8 line-clamp-2">
-                            {{ $restaurant->description }}
-                        </p>
-
-                        <div class="flex items-center justify-between pt-6 border-t border-white/5">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-[#FF5F00]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                <span class="text-white text-[10px] font-black uppercase tracking-widest">{{ $restaurant->opening_hours }}</span>
-                            </div>
-                            <a href=" " class="text-[10px] font-black uppercase tracking-widest text-[#FF5F00] hover:text-white transition-colors">
-                                Détails →
-                            </a>
-                        </div>
-                    </div>
+            @if($restaurants->isEmpty())
+                <div class="border border-dashed border-white/10 rounded-[3rem] py-32 text-center">
+                    <p class="text-gray-600 font-black uppercase tracking-widest text-xs">Vous n'avez pas encore publié de restaurant.</p>
                 </div>
-            @endforeach
+            @else
+                <div class="grid grid-cols-1 gap-6">
+                    @foreach($restaurants as $restaurant)
+                        <div class="bg-[#0A0A0A] border border-white/5 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between group hover:border-[#FF5F00]/30 transition-all shadow-2xl">
+                            
+                            <div class="flex items-center gap-8 w-full md:w-auto">
+                                <div class="w-24 h-24 rounded-2xl overflow-hidden border border-white/10">
+                                    <img src="{{ asset('storage/'.$restaurant->image) }}" class="w-full h-full object-cover">
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-xl font-black text-white uppercase italic tracking-tight">{{ $restaurant->name }}</h3>
+                                    <p class="text-[9px] font-bold text-gray-500 uppercase tracking-[2px] mt-1">{{ $restaurant->city }} • {{ $restaurant->cuisine_type }}</p>
+                                    <div class="flex gap-3 mt-4">
+                                        <span class="text-[8px] font-black bg-white/5 text-gray-400 px-3 py-1 rounded-full uppercase tracking-widest border border-white/5 italic">
+                                            {{ $restaurant->reservations_count }} Réservations
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 mt-8 md:mt-0 w-full md:w-auto justify-end">
+                                <a href="{{ route('restaurants.edit', $restaurant) }}" class="p-4 bg-white/5 hover:bg-white hover:text-black rounded-xl text-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                </a>
+                                
+                                <form action="{{ route('restaurants.destroy', $restaurant) }}" method="POST" onsubmit="return confirm('Supprimer ce restaurant ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="p-4 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </form>
+
+                                <a href="{{ route('restaurants.show', $restaurant) }}" class="ml-4 text-[10px] font-black uppercase tracking-widest text-[#FF5F00] hover:text-white transition-colors">
+                                    Voir Détails →
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 </x-app-layout>
