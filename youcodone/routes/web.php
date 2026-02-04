@@ -3,6 +3,8 @@
 use App\Http\Controllers\ClientConteroller;
 use App\Http\Controllers\DashboardConteroller;
 use App\Http\Controllers\HomeConteroller;
+use App\Http\Controllers\HoraireController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RestaurantController;
 use App\Models\Client;
@@ -29,6 +31,8 @@ Route::middleware('client')->group(function () {
 
 Route::middleware('restaurateur')->group(function () {
     Route::resource('restaurants', RestaurantController::class);
+    Route::resource('horaires', HoraireController::class);
+    Route::resource('photos', PhotoController::class);
     Route::get('/dashboard', [DashboardConteroller::class, 'index'])->name('restaurateur.dashboard');
 });
 

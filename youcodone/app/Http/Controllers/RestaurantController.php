@@ -6,6 +6,7 @@ use App\Models\Restaurant;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
 use App\Models\TypeCuisine;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
 class RestaurantController extends Controller
@@ -24,8 +25,8 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        $types_cuisines = TypeCuisine::all();
-        return view('restaurant.create', compact('types_cuisines'));
+        $type_cuisines = TypeCuisine::all();
+        return view('restaurants.create', compact('type_cuisines'));
     }
 
     /**
@@ -33,7 +34,11 @@ class RestaurantController extends Controller
      */
     public function store(StoreRestaurantRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
+        Restaurant::create($validated);
+
+        return view('restaurants.create', compact('validated'))->with('success', 'Restaurant created successfully.');
     }
 
     /**
