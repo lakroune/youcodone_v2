@@ -21,7 +21,7 @@ class AdminFactory extends Factory
         return [
             'username' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('admin@gmail.com'),
             'role' => 'admin',
         ];
     }

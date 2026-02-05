@@ -77,7 +77,7 @@
                     @if (Route::has('login'))
                         @auth
                             @role('restaurateur')
-                                <a href="{{ url('/dashboard') }}"
+                                <a href="{{ route('restaurateur.dashboard') }}"
                                     class="flex justify-center w-full bg-[#FF5F00] text-white text-[11px] font-black py-4 rounded-lg shadow-lg shadow-[#FF5F00]/10 uppercase tracking-[2px] transition-all hover:bg-[#E65600]">
                                     Aller au Dashboard
                                 </a>
@@ -88,7 +88,7 @@
                                     Aller au page accuielle </a>
                             @endrole
                             @role('admin')
-                                <a href="{{ url('/dashboard_admin') }}"
+                                <a href="{{ route('admin.restaurants') }}"
                                     class="flex justify-center w-full bg-[#FF5F00] text-white text-[11px] font-black py-4 rounded-lg shadow-lg shadow-[#FF5F00]/10 uppercase tracking-[2px] transition-all hover:bg-[#E65600]">
                                     Aller au Dashboard Admin </a>
                             @endrole

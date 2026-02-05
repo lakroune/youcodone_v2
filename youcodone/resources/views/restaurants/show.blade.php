@@ -91,7 +91,7 @@
 
             <button
                 class="w-full bg-white text-black font-black py-5 rounded-2xl uppercase tracking-[3px] text-[11px] hover:bg-[#FF5F00] hover:text-white transition-all shadow-xl">
-                Réserver une table
+                 Réserver une table
             </button>
         </div>
 

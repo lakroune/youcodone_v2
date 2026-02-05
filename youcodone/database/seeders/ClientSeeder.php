@@ -13,8 +13,8 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-       Client::factory(20)->create()->each(function ($client) {
-    $client->assignRole('client');
-});
+        Client::factory(20)->create()->each(function ($client) {
+            $client->assignRole('client');
+        });
     }
 }

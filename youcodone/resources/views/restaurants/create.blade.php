@@ -174,7 +174,7 @@
                         class="w-1/3 bg-white/5 text-white font-black py-6 rounded-3xl uppercase tracking-widest text-[10px]">Retour</button>
                     <button type="submit"
                         class="w-2/3 bg-[#FF5F00] text-white font-black py-6 rounded-3xl uppercase tracking-widest text-[10px] shadow-2xl shadow-[#FF5F00]/20">Finaliser
-                        & Publier ✅</button>
+                        & Publier </button>
                 </div>
             </div>
         </form>

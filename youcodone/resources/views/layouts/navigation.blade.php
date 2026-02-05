@@ -12,9 +12,7 @@
 
             <div class="hidden md:flex items-center space-x-12">
             
-                <a href="{{ route('restaurateur.dashboard') }}" class="text-[10px] font-black uppercase tracking-[3px] {{ request()->routeIs('dashboard') ? 'text-[#FF5F00]' : 'text-gray-500 hover:text-white' }} transition-all">
-                    Tableau de bord
-                </a>
+                
 
                 @role('client')
                     <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Exploration</a>
@@ -28,8 +26,8 @@
                 @endrole
 
                 @role('admin')
-                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-[#FF5F00] hover:text-white transition-all">Gestion Users</a>
-                    <a href="#" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Stats Globales</a>
+                    <a href="{{ route('admin.gestion') }}" class="text-[10px] font-black uppercase tracking-[3px] text-[#FF5F00] hover:text-white transition-all">Gestion Users</a>
+                    <a href="{{ route('admin.restaurants') }}" class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Gestion Restaurants</a>
                 @endrole
             </div>
 
@@ -61,7 +59,7 @@
                         </a>
 
                         @role('restaurateur')
-                        <a href="#" class="flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#FF5F00] hover:bg-white/5 transition-all">
+                        <a href="{{ route('restaurants.create') }}" class="flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#FF5F00] hover:bg-white/5 transition-all">
                              Ajouter Restaurant
                         </a>
                         @endrole

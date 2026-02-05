@@ -72,12 +72,12 @@ class RestaurantController extends Controller
 
                 $menu = $restaurant->menus()->create(); // 
 
-                foreach ($validated['menu'] as $menuItem) {
-                    $menu->plats()->create([
-                        'nom_plat' => $menuItem['nom_plat'],   // 
-                        'prix_plat' => $menuItem['prix_plat'], // 
-                    ]);
-                }
+                // foreach ($validated['menu'] as $menuItem) {
+                //     $menu->plats()->create([
+                //         'nom_plat' => $menuItem['nom_plat'],   // 
+                //         'prix_plat' => $menuItem['prix_plat'], // 
+                //     ]);
+                // }
 
                 return redirect()->route('restaurants.create')->with('success', 'Restaurant created successfully!');
             });
@@ -91,7 +91,7 @@ class RestaurantController extends Controller
     public function show(Restaurant $restaurant)
     {
         $restuarant = Restaurant::findOrFail($restaurant->id);
-        return view('restaurant.show', compact('restuarant'));
+        return view('restaurants.show', compact('restuarant'));
     }
 
     /**
