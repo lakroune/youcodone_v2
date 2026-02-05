@@ -143,7 +143,7 @@
                                     <input type="time" name="schedule[{{ strtolower($day) }}][close]"
                                         :disabled="closed"
                                         class="flex-1 bg-black/40 border border-white/5 rounded-lg px-3 py-2 text-[11px] text-white focus:border-[#FF5F00] outline-none">
-                                    <input type="checkbox" @change="closed = !closed"
+                                    <input type="checkbox" @change="closed = !closed"  
                                         class="rounded bg-white/5 border-white/10 text-[#FF5F00] focus:ring-[#FF5F00] w-4 h-4">
                                 </div>
                             @endforeach

@@ -17,14 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            AdminSeeder::class,
-            ClientSeeder::class,
-            RestaurateurSeeder::class,
             TypeCuisineSeeder::class,
-            RestaurantSeeder::class,
-            MenuSeeder::class,
-            PlatSeeder::class,
-            HoraireSeeder::class,
+            AdminSeeder::class,
+            // ClientSeeder::class,
+            // RestaurateurSeeder::class,
+            // RestaurantSeeder::class,
+            // MenuSeeder::class,
+            // PlatSeeder::class,
+            // HoraireSeeder::class,
         ]);
     }
 }

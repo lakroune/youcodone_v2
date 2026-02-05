@@ -22,15 +22,15 @@ class StoreRestaurantRequest extends FormRequest
             'capacity' => ['required', 'integer', 'min:1'],
             'description_restaurant' => ['required', 'string', 'min:10'],
 
-            // 'schedule' => ['required', 'array', ],
-            // 'schedule.*.open' => ['nullable', 'required_without:schedule.*.closed', 'date_format:H:i'],
-            // 'schedule.*.close' => ['nullable', 'required_without:schedule.*.closed', 'date_format:H:i', 'after:schedule.*.open'],
+            'schedule' => ['required', 'array'],
+            'schedule.*.open' => ['nullable', 'date_format:H:i'],
+            'schedule.*.close' => ['nullable', 'date_format:H:i', 'after:schedule.*.open'],
 
-            'image_principal' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'image_principal' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'images' => ['nullable', 'array'],
-            'images.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
 
-            'menu' => ['required', 'array'],
+            'menu' => ['required', 'array', 'min:1'],
             'menu.*.nom_plat' => ['required', 'string', 'max:255'],
             'menu.*.prix_plat' => ['required', 'numeric', 'min:0'],
         ];

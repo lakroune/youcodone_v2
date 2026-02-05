@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
-use function Symfony\Component\String\b;
-
 class RestaurantController extends Controller
 {
     /**
@@ -71,28 +69,48 @@ class RestaurantController extends Controller
                     }
                 }
 
-                $menu = $restaurant->menus()->create(); // 
+                if (isset($validated['schedule'])) {
+                    foreach ($validated['schedule'] as $jour => $horaire) {
+                        $isFerme = empty($horaire['open']) && empty($horaire['close']);
 
-                // foreach ($validated['menu'] as $menuItem) {
-                //     $menu->plats()->create([
-                //         'nom_plat' => $menuItem['nom_plat'],   // 
-                //         'prix_plat' => $menuItem['prix_plat'], // 
-                //     ]);
-                // }
+                        $restaurant->horaires()->create([
+                            'jour' => ucfirst($jour),
+                            'heure_ouverture' => $horaire['open'] ?? null,
+                            'heure_fermeture' => $horaire['close'] ?? null,
+                            'ferme' => $isFerme,
+                        ]);
+                    }
+                }
 
-                return redirect()->route('restaurants.create')->with('success', 'Restaurant created successfully!');
+                $menu = $restaurant->menus()->create([]);
+
+                if (isset($validated['menu'])) {
+                    foreach ($validated['menu'] as $menuItem) {
+                        if (!empty($menuItem['nom_plat']) && !empty($menuItem['prix_plat'])) {
+                            $menu->plats()->create([
+                                'nom_plat' => $menuItem['nom_plat'],
+                                'prix_plat' => $menuItem['prix_plat'],
+                            ]);
+                        }
+                    }
+                }
+
+                return redirect()->route('restaurants.create')->with('success', 'Restaurant créé avec succès!');
             });
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'An error . Please try again.']);
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Une erreur est survenue: ' . $e->getMessage()]);
         }
     }
+
     /**
      * Display the specified resource.
      */
     public function show(Restaurant $restaurant)
     {
-        $restuarant = Restaurant::findOrFail($restaurant->id);
-        return view('restaurants.show', compact('restuarant'));
+        $restaurant->load(['photos', 'menus.plats', 'horaires', 'typeCuisine']);
+        return view('restaurants.show', compact('restaurant'));
     }
 
     /**
@@ -100,7 +118,14 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        //
+        if (Auth::id() !== $restaurant->user_id) {
+            return redirect()->back()->with('error', "Action non autorisée.");
+        }
+
+        $type_cuisines = TypeCuisine::all();
+        $restaurant->load(['photos', 'menus.plats', 'horaires']);
+
+        return view('restaurants.edit', compact('restaurant', 'type_cuisines'));
     }
 
     /**
@@ -108,24 +133,70 @@ class RestaurantController extends Controller
      */
     public function update(UpdateRestaurantRequest $request, Restaurant $restaurant)
     {
-        //
+        if (Auth::id() !== $restaurant->user_id) {
+            return redirect()->back()->with('error', "Action non autorisée.");
+        }
+
+        $validated = $request->validated();
+
+        try {
+            return DB::transaction(function () use ($validated, $request, $restaurant) {
+                $restaurant->update([
+                    'nom_restaurant' => $validated['nom_restaurant'],
+                    'adresse_restaurant' => $validated['adresse_restaurant'],
+                    'telephone_restaurant' => $validated['telephone_restaurant'],
+                    'description_restaurant' => $validated['description_restaurant'],
+                    'email_restaurant' => $validated['email_restaurant'],
+                    'capacity' => $validated['capacity'],
+                    'type_cuisine_id' => $validated['type_cuisine_id'],
+                ]);
+
+                if (isset($validated['schedule'])) {
+                    $restaurant->horaires()->delete();
+                    foreach ($validated['schedule'] as $jour => $horaire) {
+                        $isFerme = empty($horaire['open']) && empty($horaire['close']);
+
+                        $restaurant->horaires()->create([
+                            'jour' => ucfirst($jour),
+                            'heure_ouverture' => $horaire['open'] ?? null,
+                            'heure_fermeture' => $horaire['close'] ?? null,
+                            'ferme' => $isFerme,
+                        ]);
+                    }
+                }
+
+                return redirect()->route('restaurants.show', $restaurant)
+                    ->with('success', 'Restaurant mis à jour avec succès!');
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Une erreur est survenue: ' . $e->getMessage()]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-  public function destroy(Restaurant $restaurant)
+    public function destroy(Restaurant $restaurant)
     {
-        if (Auth::user()->id() !== $restaurant->user_id) {
+        if (Auth::id() !== $restaurant->user_id) {
             return redirect()->back()->with('error', "Action non autorisée.");
         }
 
-        if ($restaurant->image) {
-            Storage::disk('public')->delete($restaurant->image);
+        try {
+            DB::transaction(function () use ($restaurant) {
+                foreach ($restaurant->photos as $photo) {
+                    Storage::disk('public')->delete($photo->url_photo);
+                }
+                $restaurant->delete();
+            });
+
+            return redirect()->route('restaurateur.dashboard')
+                ->with('success', 'Restaurant supprimé avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Erreur lors de la suppression: ' . $e->getMessage());
         }
-
-        $restaurant->delete();
-
-        return redirect()->route('restaurateur.dashboard')->with('success', 'Restaurant supprimé avec succès.');
     }
 }

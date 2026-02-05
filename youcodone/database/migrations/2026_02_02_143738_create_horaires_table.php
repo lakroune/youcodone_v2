@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('jour');
             $table->time('heure_ouverture');
             $table->time('heure_fermeture');
-            $table->boolean('ferme')->default(true);
+            $table->boolean('ferme')->default(false);
             $table->foreignId('restaurant_id');
             $table->timestamps();
         });
