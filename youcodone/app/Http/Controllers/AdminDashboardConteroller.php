@@ -25,8 +25,27 @@ class AdminDashboardConteroller extends Controller
 
     public function gestion()
     {
-        $users = User::all();
+        $users = User::all()->where('role', '!=', 'admin');
         return view('gestionusers', compact('users'));
     }
-    
+    public function updateRole(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'role' => 'required|in:client,restaurateur',
+        ]);
+
+        $user->update([
+            'role' => $validated['role']
+        ]);
+        $user->syncRoles($validated['role']);
+        return redirect()->back()->with('success', "Le rôle de {$user->username} a été mis à jour.");
+    }
+
+    public function destroyUser(User $user)
+    {
+        $user->update([
+            'is_active' => false
+        ]);
+        return redirect()->back()->with('success', "L'utilisateur a été supprimé.");
+    }
 }

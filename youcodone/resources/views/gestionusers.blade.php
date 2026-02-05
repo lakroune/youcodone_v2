@@ -43,17 +43,20 @@
                                     class="text-[8px] font-black px-2 py-1 uppercase tracking-tighter 
                                     {{ $user->role === 'admin' ? 'bg-red-600 text-white' : ($user->role === 'restaurateur' ? 'bg-[#FF5F00] text-black' : 'bg-white text-black') }}">
                                     {{ $user->role }}
+
+
+
                                 </span>
                             </div>
 
                             <h3 class="text-lg font-black text-white uppercase italic leading-tight truncate">
-                                {{ $user->name }}</h3>
+                                {{ $user->username }}</h3>
                             <p class="text-[9px] font-bold text-gray-600 uppercase tracking-widest mt-1 truncate">
                                 {{ $user->email }}</p>
                         </div>
 
                         <div class="space-y-4">
-                            <form action=" " method="POST">
+                            <form action="{{ route('admin.users.update', $user) }}" method="POST">
                                 @csrf @method('PATCH')
                                 <select name="role" onchange="this.form.submit()"
                                     class="w-full bg-black border border-white/10 text-gray-400 text-[9px] font-black uppercase tracking-widest focus:ring-0 focus:border-[#FF5F00] py-2 px-3 appearance-none cursor-pointer">
@@ -67,7 +70,7 @@
                             </form>
 
                             <div class="flex gap-2">
-                                <form action=" " method="POST" class="flex-1"
+                                <form action="{{ route('admin.users.destroy', $user) }} " method="POST" class="flex-1"
                                     onsubmit="return confirm('ALERTE: Cette action supprimera l’utilisateur et toutes ses données (restaurants, réservations). Continuer ?')">
                                     @csrf @method('DELETE')
                                     <button

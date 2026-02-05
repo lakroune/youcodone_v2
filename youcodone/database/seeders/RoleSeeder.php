@@ -28,17 +28,25 @@ class RoleSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'modifier propre restaurant']);
         Permission::firstOrCreate(['name' => 'supprimer propre restaurant']);
         Permission::firstOrCreate(['name' => 'gerer menus']);
+        Permission::firstOrCreate(['name' => 'gerer plats']);
 
         // Admin
         Permission::firstOrCreate(['name' => 'supprimer nimporte quel restaurant']);
         Permission::firstOrCreate(['name' => 'acceder dashboard admin']);
         Permission::firstOrCreate(['name' => 'gerer utilisateurs']);
+        Permission::firstOrCreate(['name' => 'gerer roles']);
+        Permission::firstOrCreate(['name' => 'gerer permissions']);
+        // visiteur
+        Permission::firstOrCreate(['name' => 'login']);
+
+
 
 
         // --- ROLES ---
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $restaurateur = Role::firstOrCreate(['name' => 'restaurateur']);
         $client = Role::firstOrCreate(['name' => 'client']);
+        $visiteur = Role::firstOrCreate(['name' => 'visiteur']);
 
         // Admin :  
         $admin->givePermissionTo(Permission::all());
@@ -60,5 +68,10 @@ class RoleSeeder extends Seeder
             'ajouter favoris',
             'reserver table'
         ]);
-    }
+
+        // Visiteur
+        $visiteur->givePermissionTo([
+            'login'
+        ]);
+        }
 }
