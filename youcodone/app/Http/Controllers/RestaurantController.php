@@ -6,6 +6,7 @@ use App\Models\Restaurant;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
 use App\Models\TypeCuisine;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
@@ -113,8 +114,18 @@ class RestaurantController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Restaurant $restaurant)
+  public function destroy(Restaurant $restaurant)
     {
-        //
+        if (Auth::user()->id() !== $restaurant->user_id) {
+            return redirect()->back()->with('error', "Action non autorisée.");
+        }
+
+        if ($restaurant->image) {
+            Storage::disk('public')->delete($restaurant->image);
+        }
+
+        $restaurant->delete();
+
+        return redirect()->route('restaurateur.dashboard')->with('success', 'Restaurant supprimé avec succès.');
     }
 }

@@ -40,7 +40,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/restaurants', [AdminDashboardConteroller::class, 'index'])->name('admin.restaurants');
     Route::get('/gestion', [AdminDashboardConteroller::class, 'gestion'])->name('admin.gestion');
     Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('admin.restaurant.show');
-    Route::delete('/restaurants/{restaurant}', [AdminDashboardConteroller::class, 'destroy'])->name('admin.restaurant.destroy');
+    Route::delete('/restaurants/{restaurant}', [AdminDashboardConteroller::class, 'destroyRestaurant'])->name('admin.restaurant.destroy');
     Route::patch('/users/{user}', [AdminDashboardConteroller::class, 'updateRole'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminDashboardConteroller::class, 'destroyUser'])->name('admin.users.destroy');
 });

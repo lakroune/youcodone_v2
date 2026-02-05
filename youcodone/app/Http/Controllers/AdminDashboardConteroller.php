@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,7 @@ class AdminDashboardConteroller extends Controller
     public function updateRole(Request $request, User $user)
     {
         $validated = $request->validate([
-            'role' => 'required|in:client,restaurateur',
+            'role' => 'required|in:client,restaurateur,visiteur',
         ]);
 
         $user->update([
@@ -47,5 +48,17 @@ class AdminDashboardConteroller extends Controller
             'is_active' => false
         ]);
         return redirect()->back()->with('success', "L'utilisateur a été supprimé.");
+    }
+
+    public  function destroyRestaurant(Restaurant $restaurant)
+    {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->back()->with('error', "Action non autorisée.");
+        }
+        if ($restaurant->image) {
+            Storage::disk('public')->delete($restaurant->images);
+        }
+        $restaurant->delete();
+        return redirect()->route('admin.restaurants')->with('success', 'Restaurant supprimé avec succès.');
     }
 }

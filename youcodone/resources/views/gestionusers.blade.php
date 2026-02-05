@@ -64,21 +64,12 @@
                                         Client</option>
                                     <option value="restaurateur" {{ $user->role === 'restaurateur' ? 'selected' : '' }}>
                                         Set as Restaurateur</option>
-                                    <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Set as Admin
+                                    <option value="visiteur" {{ $user->role === 'visiteur' ? 'selected' : '' }}>BAN ACCOUNT
                                     </option>
                                 </select>
                             </form>
 
-                            <div class="flex gap-2">
-                                <form action="{{ route('admin.users.destroy', $user) }} " method="POST" class="flex-1"
-                                    onsubmit="return confirm('ALERTE: Cette action supprimera l’utilisateur et toutes ses données (restaurants, réservations). Continuer ?')">
-                                    @csrf @method('DELETE')
-                                    <button
-                                        class="w-full bg-red-600/5 hover:bg-red-600 text-red-600 hover:text-white border border-red-600/20 py-3 text-[9px] font-black uppercase transition-all">
-                                        Ban Account
-                                    </button>
-                                </form>
-                            </div>
+                          
                         </div>
                         <div
                             class="absolute inset-0 border border-white/20 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">
