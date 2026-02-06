@@ -17,18 +17,18 @@
 
                 @role('client')
                     <a href="{{ route('home') }}"
-                        class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Exploration</a>
+                        class="text-[10px] font-black uppercase tracking-[3px] text-orange-500 hover:text-white transition-all">Exploration</a>
                     <a href="{{ route('client.favoris') }}"
-                        class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Mes
+                        class="text-[10px] font-black uppercase tracking-[3px] text-orange-500 hover:text-white transition-all">Mes
                         Favoris</a>
                     <a href="#"
-                        class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Mes
+                        class="text-[10px] font-black uppercase tracking-[3px] text-orange-500 hover:text-white transition-all">Mes
                         Réservations</a>
                 @endrole
 
                 @role('restaurateur')
                     <a href="{{ route('restaurateur.dashboard') }}"
-                        class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Mes
+                        class="text-[10px] font-black uppercase tracking-[3px] text-orange-500 hover:text-white transition-all">Mes
                         Restaurants</a>
                 @endrole
 
@@ -37,7 +37,7 @@
                         class="text-[10px] font-black uppercase tracking-[3px] text-[#FF5F00] hover:text-white transition-all">Gestion
                         Users</a>
                     <a href="{{ route('admin.restaurants') }}"
-                        class="text-[10px] font-black uppercase tracking-[3px] text-gray-500 hover:text-white transition-all">Gestion
+                        class="text-[10px] font-black uppercase tracking-[3px] text-[#FF5F00] hover:text-white-500 hover:text-white transition-all">Gestion
                         Restaurants</a>
                 @endrole
             </div>

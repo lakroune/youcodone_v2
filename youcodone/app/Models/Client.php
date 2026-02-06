@@ -14,9 +14,8 @@ class Client extends User
         'email',
         'password',
         'role',
-        'nom',
-        'prenom',
         'phone',
+        'avatar',
     ];
 
     public function restaurants()

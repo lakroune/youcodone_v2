@@ -14,23 +14,28 @@
             <div class="md:w-1/3 flex flex-col items-center">
                 <div class="relative group">
                     <!-- Avatar Display -->
-                    <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-white/5 transition-all duration-500 group-hover:border-[#FF5F00]/50 group-hover:scale-105">
+                    <div
+                        class="w-48 h-48 rounded-full overflow-hidden border-4 border-white/5 transition-all duration-500 group-hover:border-[#FF5F00]/50 group-hover:scale-105">
                         <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->username) . '&background=FF5F00&color=fff&size=200' }}"
                             class="w-full h-full object-cover" alt="Avatar">
                     </div>
 
                     <!-- Upload Avatar Button -->
-                    <form action="{{ route('profile.avatar.update') }}" method="POST" enctype="multipart/form-data" id="avatarForm">
+                    <form action="{{ route('profile.avatar.update') }}" method="POST" enctype="multipart/form-data"
+                        id="avatarForm">
                         @csrf
                         @method('PUT')
-                        <label class="absolute bottom-4 right-4 bg-[#FF5F00] p-3 rounded-full cursor-pointer hover:scale-110 transition-all shadow-xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <label
+                            class="absolute bottom-4 right-4 bg-[#FF5F00] p-3 rounded-full cursor-pointer hover:scale-110 transition-all shadow-xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                     d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                     d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <input type="file" name="avatar" accept="image/*" class="hidden" onchange="document.getElementById('avatarForm').submit()">
+                            <input type="file" name="avatar" accept="image/*" class="hidden"
+                                onchange="document.getElementById('avatarForm').submit()">
                         </label>
                     </form>
                 </div>
@@ -41,18 +46,20 @@
                         {{ Auth::user()->username }}
                     </h2>
                     <div class="mt-3">
-                        <span class="px-4 py-1.5 bg-[#FF5F00]/10 text-[#FF5F00] text-[10px] font-black uppercase tracking-[2px] rounded-full border border-[#FF5F00]/20">
+                        <span
+                            class="px-4 py-1.5 bg-[#FF5F00]/10 text-[#FF5F00] text-[10px] font-black uppercase tracking-[2px] rounded-full border border-[#FF5F00]/20">
                             {{ ucfirst(Auth::user()->role ?? 'Client') }}
                         </span>
                     </div>
                     <p class="text-gray-600 text-[10px] mt-6 font-bold tracking-[4px] uppercase italic">
                         Member since {{ Auth::user()->created_at->format('Y') }}
                     </p>
+
                 </div>
 
                 <!-- Delete Account -->
                 <div class="mt-10 w-full">
-                    <button onclick="openDeleteAccountModal()" 
+                    <button onclick="openDeleteAccountModal()"
                         class="w-full bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-[2px] py-3 rounded-xl hover:bg-red-500/20 transition-all">
                         Delete Account
                     </button>
@@ -60,43 +67,41 @@
             </div>
 
             <!-- RIGHT COLUMN - Profile Form -->
-            <div class="md:w-2/3 bg-[#0A0A0A] border border-white/5 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+            <div
+                class="md:w-2/3 bg-[#0A0A0A] border border-white/5 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
                 <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#FF5F00]/5 rounded-full blur-3xl"></div>
 
                 <h3 class="text-xl font-black uppercase tracking-[4px] mb-10 border-b border-white/5 pb-6">
                     Account Settings<span class="text-[#FF5F00]">.</span>
                 </h3>
 
-                <form action="{{ route('profile.update') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <form action="{{ route('profile.update') }}" method="POST"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     @csrf
                     @method('PATCH')
 
-                    <!-- Nom -->
-                    <div class="space-y-2">
+                    <!-- nom complete -->
+                    <div class="space-y-2 md:col-span-2">
                         <label class="text-[10px] text-gray-500 font-black uppercase tracking-[3px]">Nom</label>
-                        <input type="text" name="nom" value="{{ old('nom', Auth::user()->nom) }}"
+                        <input type="text" name="username" value="{{ old('nom', Auth::user()->username) }}"
                             class="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 text-sm text-white outline-none focus:border-[#FF5F00] transition-all">
-                        <x-input-error class="mt-2" :messages="$errors->get('nom')" />
+                        <x-input-error class="mt-2" :messages="$errors->get('username')" />
                     </div>
 
-                    <!-- Prénom -->
-                    <div class="space-y-2">
-                        <label class="text-[10px] text-gray-500 font-black uppercase tracking-[3px]">Prénom</label>
-                        <input type="text" name="prenom" value="{{ old('prenom', Auth::user()->prenom) }}"
-                            class="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 text-sm text-white outline-none focus:border-[#FF5F00] transition-all">
-                        <x-input-error class="mt-2" :messages="$errors->get('prenom')" />
-                    </div>
+
 
                     <!-- Email (Read-only) -->
                     <div class="space-y-2">
-                        <label class="text-[10px] text-gray-500 font-black uppercase tracking-[3px]">Email Address</label>
+                        <label class="text-[10px] text-gray-500 font-black uppercase tracking-[3px]">Email
+                            Address</label>
                         <input type="email" value="{{ Auth::user()->email }}" readonly
                             class="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-4 text-sm text-gray-600 outline-none cursor-not-allowed italic">
                     </div>
 
                     <!-- Phone -->
                     <div class="space-y-2">
-                        <label class="text-[10px] text-gray-500 font-black uppercase tracking-[3px]">Mobile Phone</label>
+                        <label class="text-[10px] text-gray-500 font-black uppercase tracking-[3px]">Mobile
+                            Phone</label>
                         <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}"
                             placeholder="+212 ..."
                             class="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 text-sm text-white outline-none focus:border-[#FF5F00] transition-all">
@@ -115,7 +120,8 @@
                     <!-- Account Status -->
                     <div class="md:col-span-2 flex items-center gap-3 py-4">
                         <div class="relative flex h-3 w-3">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                         </div>
                         <span class="text-[10px] text-gray-500 uppercase font-black tracking-[2px]">Account Status:
@@ -147,7 +153,7 @@
                         @if (session('status') === 'profile-updated')
                             <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 3000)"
                                 class="text-sm text-[#FF5F00] font-bold self-center animate-pulse">
-                                ✓ Updated Successfully
+                                Updated Successfully
                             </p>
                         @endif
                     </div>
@@ -157,12 +163,14 @@
     </div>
 
     <!-- DELETE ACCOUNT MODAL -->
-    <div id="deleteAccountModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="bg-[#0A0A0A] border-2 border-red-500/30 rounded-2xl p-8 max-w-md w-full mx-4 relative overflow-hidden">
-            
+    <div id="deleteAccountModal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div
+            class="bg-[#0A0A0A] border-2 border-red-500/30 rounded-2xl p-8 max-w-md w-full mx-4 relative overflow-hidden">
+
             <!-- Red accent line -->
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
-            
+
             <!-- Icon -->
             <div class="flex justify-center mb-6">
                 <div class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center">
@@ -186,7 +194,7 @@
             <form action="{{ route('profile.destroy') }}" method="POST" class="space-y-4">
                 @csrf
                 @method('DELETE')
-                
+
                 <div class="space-y-2">
                     <input type="password" name="password" placeholder="Mot de passe" required
                         class="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 text-sm text-white outline-none focus:border-red-500 transition-all">
