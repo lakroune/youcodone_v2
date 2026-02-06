@@ -8,6 +8,7 @@ use Parental\HasParent;
 class Restaurateur extends User
 {
     use HasParent;
+    protected $childColumnValue = 'restaurateur';
     protected $fillable = [
         'username',
         'email',

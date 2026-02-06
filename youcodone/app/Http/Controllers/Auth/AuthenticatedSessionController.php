@@ -27,8 +27,15 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(route('home', absolute: false));
+        if ($request->user()->role === 'restaurateur') {
+            return redirect(route('restaurateur.dashboard', absolute: false))->with('success', "Bienvenue {$request->user()->username}");
+        } elseif ($request->user()->role === 'client') {
+            return redirect(route('home', absolute: false))->with('success', "Bienvenue {$request->user()->username}");
+        } elseif ($request->user()->role === 'admin') {
+            return redirect(route('admin.gestion', absolute: false))->with('success', "Bienvenue {$request->user()->username}");
+        } else {
+            return redirect('/');
+        }
     }
 
     /**

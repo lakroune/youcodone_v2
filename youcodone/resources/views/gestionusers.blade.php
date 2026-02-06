@@ -64,12 +64,12 @@
                                         Client</option>
                                     <option value="restaurateur" {{ $user->role === 'restaurateur' ? 'selected' : '' }}>
                                         Set as Restaurateur</option>
-                                    <option value="visiteur" {{ $user->role === 'visiteur' ? 'selected' : '' }}>BAN ACCOUNT
+                                    <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>BAN ACCOUNT
                                     </option>
                                 </select>
                             </form>
 
-                          
+
                         </div>
                         <div
                             class="absolute inset-0 border border-white/20 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">

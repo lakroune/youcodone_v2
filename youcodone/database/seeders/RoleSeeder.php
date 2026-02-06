@@ -46,7 +46,7 @@ class RoleSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $restaurateur = Role::firstOrCreate(['name' => 'restaurateur']);
         $client = Role::firstOrCreate(['name' => 'client']);
-        $visiteur = Role::firstOrCreate(['name' => 'visiteur']);
+        $visiteur = Role::firstOrCreate(['name' => 'user']);
 
         // Admin :  
         $admin->givePermissionTo(Permission::all());
@@ -73,5 +73,5 @@ class RoleSeeder extends Seeder
         $visiteur->givePermissionTo([
             'login'
         ]);
-        }
+    }
 }
