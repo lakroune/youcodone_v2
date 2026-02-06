@@ -36,8 +36,6 @@ class RoleSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'gerer utilisateurs']);
         Permission::firstOrCreate(['name' => 'gerer roles']);
         Permission::firstOrCreate(['name' => 'gerer permissions']);
-        // visiteur
-        Permission::firstOrCreate(['name' => 'login']);
 
 
 
@@ -46,7 +44,7 @@ class RoleSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $restaurateur = Role::firstOrCreate(['name' => 'restaurateur']);
         $client = Role::firstOrCreate(['name' => 'client']);
-        $visiteur = Role::firstOrCreate(['name' => 'user']);
+        $userbanned = Role::firstOrCreate(['name' => 'userbanned']);
 
         // Admin :  
         $admin->givePermissionTo(Permission::all());
@@ -69,9 +67,9 @@ class RoleSeeder extends Seeder
             'reserver table'
         ]);
 
-        // Visiteur
-        $visiteur->givePermissionTo([
-            'login'
+        // Userbanned
+        $userbanned->givePermissionTo([
+            'modifier profil'
         ]);
     }
 }

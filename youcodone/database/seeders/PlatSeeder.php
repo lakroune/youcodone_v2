@@ -13,6 +13,6 @@ class PlatSeeder extends Seeder
      */
     public function run(): void
     {
-        Plat::factory()->count(10)->create();
+        Plat::factory()->count(100)->create();
     }
 }

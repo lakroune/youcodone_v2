@@ -32,7 +32,7 @@ class AdminDashboardConteroller extends Controller
     public function updateRole(Request $request, User $user)
     {
         $validated = $request->validate([
-            'role' => 'required|in:client,restaurateur,user',
+            'role' => 'required|in:client,restaurateur,userbanned',
         ]);
 
         $user->update([

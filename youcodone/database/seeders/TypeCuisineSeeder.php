@@ -13,6 +13,6 @@ class TypeCuisineSeeder extends Seeder
      */
     public function run(): void
     {
-        TypeCuisine::factory()->count(10)->create();
+        TypeCuisine::factory()->count(3)->create();
     }
 }

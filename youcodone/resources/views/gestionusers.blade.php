@@ -35,9 +35,9 @@
 
                         <div>
                             <div class="flex justify-between items-start mb-4">
-                                <div
-                                    class="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center font-black text-white text-xs uppercase">
-                                    {{ substr($user->name, 0, 2) }}
+                                <div class="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center font-black text-white text-xs uppercase"
+                                    style="background-image: url('{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . $user->username . '&background=FF5F00&color=fff' }}'); background-size: cover; background-position: center;">
+                                     
                                 </div>
                                 <span
                                     class="text-[8px] font-black px-2 py-1 uppercase tracking-tighter 
@@ -64,7 +64,8 @@
                                         Client</option>
                                     <option value="restaurateur" {{ $user->role === 'restaurateur' ? 'selected' : '' }}>
                                         Set as Restaurateur</option>
-                                    <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>BAN ACCOUNT
+                                    <option value="userbanned" {{ $user->role === 'userbanned' ? 'selected' : '' }}>BAN
+                                        ACCOUNT
                                     </option>
                                 </select>
                             </form>

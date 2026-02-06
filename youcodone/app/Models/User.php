@@ -18,7 +18,8 @@ class User extends Authenticatable
     protected $childTypes = [
         'client' => Client::class,
         'restaurateur' => Restaurateur::class,
-        'admin' => Admin::class
+        'admin' => Admin::class,
+        'userbanned' => UserBanned::class
     ];
     /**
      * The attributes that are mass assignable.
