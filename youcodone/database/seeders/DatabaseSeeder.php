@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             TypeCuisineSeeder::class,
             AdminSeeder::class,
-            ClientSeeder::class,
-            RestaurateurSeeder::class,
-            RestaurantSeeder::class,
-            MenuSeeder::class,
-            PlatSeeder::class,
-            HoraireSeeder::class,
+            // ClientSeeder::class,
+            // RestaurateurSeeder::class,
+            // RestaurantSeeder::class,
+            // MenuSeeder::class,
+            // PlatSeeder::class,
+            // HoraireSeeder::class,
         ]);
     }
 }
