@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('nb_personne');
             $table->string('statut');
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +18,10 @@ class PaiementFactory extends Factory
     public function definition(): array
     {
         return [
-            'date_paiement' => $this->faker->date(),
-            'montant' => $this->faker->randomFloat(2, 0, 100),
-            'methode_paiement' => $this->faker->randomElement(['PayPal', 'Stripe']),
+            'date_paiement' => fake()->date(),
+            'montant' => fake()->randomFloat(2, 0, 100),
+            'methode_paiement' => fake()->randomElement(['Visa', 'Mastercard', 'PayPal']),
+            'reservation_id' => Reservation::factory(),
         ];
     }
 }

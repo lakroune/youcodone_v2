@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
+            $table->string('date_paiement');
+            $table->float('montant');
+            $table->string('methode_paiement');
+            $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
