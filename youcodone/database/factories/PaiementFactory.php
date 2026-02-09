@@ -17,7 +17,9 @@ class PaiementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'date_paiement' => $this->faker->date(),
+            'montant' => $this->faker->randomFloat(2, 0, 100),
+            'methode_paiement' => $this->faker->randomElement(['PayPal', 'Stripe']),
         ];
     }
 }
