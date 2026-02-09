@@ -22,4 +22,9 @@ class Client extends User
     {
         return  $this->belongsToMany(Restaurant::class, 'favoris', 'user_id', 'restaurant_id')->withTimestamps();
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

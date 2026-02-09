@@ -2,18 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Reservation;
 use App\Notifications\ReservationNotification;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class NotificationSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        
-    ReservationNotification::factory()->count(10)->create();
+        $user = User::first();
+        $reservation = Reservation::first();
+
+        if ($user && $reservation) {
+            $user->notify(new ReservationNotification($reservation));
+        }
     }
 }

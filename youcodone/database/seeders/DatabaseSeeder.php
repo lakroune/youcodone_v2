@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             PlatSeeder::class,
             HoraireSeeder::class,
             ReservationSeeder::class,
-            PaiementSeeder::class
+            PaiementSeeder::class,
+            NotificationSeeder::class
         ]);
     }
 }

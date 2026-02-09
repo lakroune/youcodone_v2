@@ -24,7 +24,7 @@ class ReservationFactory extends Factory
             'heure_reservation' => fake()->time(),
             'nb_personne' => fake()->numberBetween(1, 10),
             'statut' => fake()->randomElement(['En attente', 'Acceptée', 'Refusée']),
-            'client_id' => Client::factory(),
+            'user_id' => Client::factory(),
             'restaurant_id' => Restaurant::factory(),
         ];
     }

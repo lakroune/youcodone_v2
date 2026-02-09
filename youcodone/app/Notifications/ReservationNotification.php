@@ -27,7 +27,7 @@ class ReservationNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'databese'];
+        return ['mail', 'database'];
     }
 
     /**
