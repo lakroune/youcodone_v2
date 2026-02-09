@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             // MenuSeeder::class,
             // PlatSeeder::class,
             // HoraireSeeder::class,
+            // ReservationSeeder::class
         ]);
     }
 }

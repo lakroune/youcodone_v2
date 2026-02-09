@@ -17,7 +17,10 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'date_reservation' => $this->faker->date(),
+            'heure_reservation' => $this->faker->time(),
+            'nb_personne' => $this->faker->numberBetween(1, 10),
+            'statut' => $this->faker->randomElement(['En attente', 'Acceptée', 'Refusée']),
         ];
     }
 }
