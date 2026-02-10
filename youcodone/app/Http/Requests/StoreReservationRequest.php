@@ -11,7 +11,7 @@ class StoreReservationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'restaurant_id' => 'required|exists:restaurants,id',
+            'date_reservation' => 'required|date|after_or_equal:today',
+            'heure_reservation' => 'required', //|date_format:H:i
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'date_reservation.after_or_equal' => 'La date de reservation doit etre au moins aujourd\'hui.',
         ];
     }
 }
