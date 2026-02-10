@@ -32,6 +32,7 @@ Route::middleware('client')->prefix('client')->group(function () {
     Route::post('/home', [HomeConteroller::class, 'search'])->name('home.search');
     Route::post('/home/favori', [ClientConteroller::class, 'storefavori'])->name('home.like');
     Route::get('/home/favoris', [ClientConteroller::class, 'mesFavoris'])->name('client.favoris');
+    Route::post('/home/reservations', [ClientConteroller::class, 'store'])->name('client.reservations.store');
     Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('client.restaurant.show');
 });
 Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
