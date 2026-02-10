@@ -11,10 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    public function index()
-    {
-        //
-    }
+   public function index()
+{
+    $reservations = Reservation::with(['restaurant.photos'])
+        ->where('user_id', Auth::id())
+        ->orderBy('date_reservation', 'desc') 
+        ->orderBy('heure_reservation', 'desc')
+        ->paginate(6); 
+
+    return view('reservations', compact('reservations'));
+}
 
     public function create()
     {
