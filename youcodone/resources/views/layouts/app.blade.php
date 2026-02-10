@@ -52,6 +52,27 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+    
+        @keyframes scroll-film {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+
+        }
+
+        .animate-film {
+            display: flex;
+            width: max-content;
+            animation: scroll-film 40s linear infinite;
+        }
+
+        .animate-film:hover {
+            animation-play-state: paused;
+        }
     </style>
 </head>
 

@@ -1,120 +1,121 @@
 <x-app-layout>
-    <section class="mt-4 px-4">
-        <div class="flex gap-4 overflow-x-auto no-scrollbar snap-x h-[400px]">
-            @forelse ($restaurant->photos as $photo)
-                <div class="min-w-[70%] md:min-w-[40%] snap-center rounded-[2rem] overflow-hidden border border-white/5">
-                    <img src="{{ asset('storage/' . $photo->url_photo) }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" alt="{{ $restaurant->nom_restaurant }}">
-                </div>
-            @empty
-                <div class="w-full bg-white/5 rounded-[2rem] flex items-center justify-center border border-dashed border-white/10">
-                    <p class="text-gray-500 uppercase tracking-widest text-xs">Aucune photo disponible</p>
-                </div>
-            @endforelse
-        </div>
-    </section>
-
-    <section class="max-w-7xl mx-auto px-6 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20" 
-             x-data="reservationHandler()">
+    <div class="bg-[#050505] min-h-screen text-gray-200 font-serif pb-32" x-data="reservationHandler()">
         
-        <div class="lg:col-span-8 space-y-16">
-            <div>
-                <span class="text-[#FF5F00] text-[10px] font-black uppercase tracking-[4px]">{{ $restaurant->typeCuisine->nom_type_cuisine ?? 'Cuisine' }}</span>
-                <h2 class="text-6xl font-black uppercase italic tracking-tighter mt-2 mb-6 text-white">{{ $restaurant->nom_restaurant }}<span class="text-[#FF5F00]">.</span></h2>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-2xl">{{ $restaurant->description_restaurant }}</p>
-            </div>
-
-            <div>
-                <h3 class="text-xl font-black uppercase italic mb-8 flex items-center gap-4 text-white">Le Menu <div class="h-[1px] flex-1 bg-white/5"></div></h3>
-                @forelse ($restaurant->menus->plats as $plat)
-                    <div class="flex justify-between items-end border-b border-white/5 pb-4 mb-4 group">
-                        <h4 class="text-white font-bold text-sm uppercase group-hover:text-[#FF5F00] transition-colors">{{ $plat->nom_plat }}</h4>
-                        <span class="text-[#FF5F00] font-black text-sm ml-4">{{ number_format($plat->prix_plat, 0) }} DH</span>
-                    </div>
-                @empty
-                    <p class="text-gray-500 text-xs italic">Menu non disponible.</p>
-                @endforelse
-            </div>
-        </div>
-
-        <div class="lg:col-span-4 space-y-8">
-            @role('client')
-            <div class="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] backdrop-blur-md shadow-2xl">
-                <h4 class="text-xs font-black uppercase tracking-[3px] mb-8 text-[#FF5F00] text-center">Réserver une visite</h4>
-                
-                <form action="{{ route('client.reservations.store') }}" method="POST" class="space-y-6">
-                    @csrf
-                    <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
-
-                    <div>
-                        <label class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 block ml-1">Date</label>
-                        <input type="date" name="date_reservation" 
-                               x-model="selectedDate"
-                               @change="updateHours()"
-                               min="{{ date('Y-m-d') }}" required
-                               class="w-full bg-[#121212] border border-white/10 rounded-2xl px-5 py-4 text-sm text-white focus:border-[#FF5F00] outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 block ml-1">Heure disponible</label>
-                        <select name="heure_reservation" required
-                                class="w-full bg-[#121212] border border-white/10 rounded-2xl px-5 py-4 text-sm text-white focus:border-[#FF5F00] outline-none appearance-none">
-                            <option value="">Choisir l'heure</option>
-                            <template x-for="hour in availableHours" :key="hour">
-                                <option :value="hour" x-text="formatHour(hour)"></option>
-                            </template>
-                        </select>
-                        
-                        <p x-show="isClosed" class="text-red-500 text-[9px] mt-2 ml-1 italic">
-                            Désolé, le restaurant est fermé ce jour-là.
-                        </p>
-                        <p x-show="!isClosed && availableHours.length > 0" class="text-[9px] text-gray-500 mt-2 ml-1 italic">
-                            * Durée de réservation : 2 heures.
-                        </p>
-                    </div>
-
-                    <button type="submit" :disabled="isClosed || availableHours.length === 0"
-                            class="w-full bg-white text-black font-black py-5 rounded-2xl uppercase tracking-[3px] text-[11px] hover:bg-[#FF5F00] hover:text-white transition-all disabled:opacity-50 group flex items-center justify-center gap-2">
-                        <span>Confirmer</span>
-                    </button>
-                </form>
-            </div>
-            @endrole
-
-            <div class="bg-white/5 p-8 rounded-[2rem] border border-white/5">
-                <h4 class="text-xs font-black uppercase tracking-[2px] mb-6 text-[#FF5F00]">Horaires</h4>
-                <div class="space-y-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                    @foreach (['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] as $jour)
-                        @php $h = $restaurant->horaires->firstWhere('jour', $jour); @endphp
-                        <div class="flex justify-between border-b border-white/5 pb-2">
-                            <span>{{ $jour }}</span>
-                            <span class="text-white">{{ ($h && !$h->ferme) ? substr($h->heure_ouverture,0,5).' - '.substr($h->heure_fermeture,0,5) : 'Fermé' }}</span>
+        <section class="relative h-[70vh] w-full overflow-hidden border-b border-white/5 bg-black">
+            <div class="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#050505] via-transparent to-[#050505]"></div>
+            
+            <div class="animate-film h-full flex items-center">
+                @php $allPhotos = $restaurant->photos->concat($restaurant->photos); @endphp
+                @foreach ($allPhotos as $photo)
+                    <div class="h-[60vh] w-[80vw] md:w-[40vw] px-4 flex-shrink-0">
+                        <div class="w-full h-full overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl">
+                            <img src="{{ asset('storage/' . $photo->url_photo) }}" 
+                                 class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-110 hover:scale-100">
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center pointer-events-none">
+                <h1 class="text-7xl md:text-9xl font-black italic tracking-tighter text-white mix-blend-difference uppercase">
+                    {{ $restaurant->nom_restaurant }}<span class="text-[#FF5F00]">.</span>
+                </h1>
+                <p class="text-[#FF5F00] text-[10px] font-black tracking-[0.8em] uppercase mt-4">Experience Gastronomique</p>
+            </div>
+        </section>
+
+        <main class="max-w-7xl mx-auto px-8 md:px-16 mt-32">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-24">
+                
+                <div class="lg:col-span-7 space-y-32">
+                    <article>
+                        <h2 class="text-[#FF5F00] text-[11px] font-black tracking-[0.4em] uppercase mb-10 flex items-center gap-4">
+                            <span class="w-8 h-[1px] bg-[#FF5F00]"></span> Philosophy
+                        </h2>
+                        <p class="text-2xl md:text-4xl leading-[1.4] text-white italic font-light font-serif">
+                            {{ $restaurant->description_restaurant }}
+                        </p>
+                    </article>
+
+                    <section>
+                        <h2 class="text-[#FF5F00] text-[11px] font-black tracking-[0.4em] uppercase mb-16">Signature Menu</h2>
+                        @if ($restaurant->menus && $restaurant->menus->plats->isNotEmpty())
+                            <div class="space-y-12">
+                                @foreach ($restaurant->menus->plats as $plat)
+                                    <div class="group">
+                                        <div class="flex justify-between items-end mb-2">
+                                            <h4 class="text-lg font-bold text-white uppercase tracking-wider group-hover:text-[#FF5F00] transition-colors">
+                                                {{ $plat->nom_plat }}
+                                            </h4>
+                                            <span class="text-[#FF5F00] font-black italic">{{ number_format($plat->prix_plat, 0) }} DH</span>
+                                        </div>
+                                        <div class="h-[1px] w-full bg-white/10"></div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </section>
+                </div>
+
+                <div class="lg:col-span-5 relative">
+                    <div class="sticky top-24 bg-[#0A0A0A] border border-white/5 p-12 rounded-2xl shadow-2xl">
+                        <form action="{{ route('client.reservations.store') }}" method="POST" class="space-y-12">
+                            @csrf
+                            <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
+
+                            <div>
+                                <label class="text-[9px] text-gray-500 uppercase tracking-widest mb-6 block font-black">01. Choisir Une Date</label>
+                                <input type="date" name="date_reservation" x-model="selectedDate" @change="updateHours()"
+                                    min="{{ date('Y-m-d') }}" required
+                                    class="w-full bg-transparent border-0 border-b border-white/10 px-0 py-4 text-white focus:border-[#FF5F00] focus:ring-0 outline-none">
+                            </div>
+
+                            <div>
+                                <label class="text-[9px] text-gray-500 uppercase tracking-widest mb-6 block font-black">02. Heure de Table</label>
+                                <div class="relative">
+                                    <select name="heure_reservation" x-model="selectedHour" required
+                                        class="w-full bg-transparent border-0 border-b border-white/10 px-0 py-4 text-white focus:border-[#FF5F00] focus:ring-0 outline-none appearance-none cursor-pointer">
+                                        <option value="" class="bg-[#0A0A0A]">SÉLECTIONNER</option>
+                                        <template x-for="hour in availableHours" :key="hour">
+                                            <option :value="hour" x-text="formatHour(hour)" class="bg-[#0A0A0A]"></option>
+                                        </template>
+                                    </select>
+                                    <span class="absolute right-0 bottom-4 text-[#FF5F00] pointer-events-none">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button type="submit" :disabled="isClosed || !selectedDate || availableHours.length === 0"
+                                class="w-full bg-white text-black font-black py-6 uppercase tracking-[0.5em] text-[10px] hover:bg-[#FF5F00] hover:text-white transition-all duration-700 disabled:opacity-5">
+                                Réserver Maintenant
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </main>
+    </div>
 
     <script>
         function reservationHandler() {
             return {
                 selectedDate: '',
+                selectedHour: '',
                 availableHours: [],
                 isClosed: false,
-                // نمرر البيانات من Laravel إلى JavaScript
                 horaires: @json($restaurant->horaires),
-                
                 updateHours() {
+                    this.availableHours = [];
+                    this.selectedHour = '';
                     if (!this.selectedDate) return;
 
                     const date = new Date(this.selectedDate);
                     const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
                     const dayName = days[date.getDay()];
-
                     const config = this.horaires.find(h => h.jour === dayName);
 
                     if (!config || config.ferme) {
-                        this.availableHours = [];
                         this.isClosed = true;
                         return;
                     }
@@ -122,15 +123,10 @@
                     this.isClosed = false;
                     const start = parseInt(config.heure_ouverture.split(':')[0]);
                     const end = parseInt(config.heure_fermeture.split(':')[0]);
-                    
-                    let hours = [];
-                    // نقوم بإنشاء الساعات من وقت الفتح حتى (وقت القفل - 2) لضمان مدة الساعتين
                     for (let i = start; i <= (end - 2); i++) {
-                        hours.push(i);
+                        this.availableHours.push(i);
                     }
-                    this.availableHours = hours;
                 },
-
                 formatHour(h) {
                     return h.toString().padStart(2, '0') + ':00';
                 }
