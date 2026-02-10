@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('date_reservation');
             $table->string('heure_reservation');
-            $table->integer('nb_personne');
             $table->string('statut')->default("En attente");
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');

@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeConteroller;
 use App\Http\Controllers\HoraireController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RestaurantController;
 use App\Models\Admin;
 use App\Models\Client;
@@ -32,7 +33,9 @@ Route::middleware('client')->prefix('client')->group(function () {
     Route::post('/home', [HomeConteroller::class, 'search'])->name('home.search');
     Route::post('/home/favori', [ClientConteroller::class, 'storefavori'])->name('home.like');
     Route::get('/home/favoris', [ClientConteroller::class, 'mesFavoris'])->name('client.favoris');
-    Route::post('/home/reservations', [ClientConteroller::class, 'store'])->name('client.reservations.store');
+    Route::get('/home/reservations', [ReservationController::class, 'index'])->name('client.reservations');
+    Route::get('/home/reservations/{reservation}', [ReservationController::class, 'show'])->name('client.reservations.show');
+    Route::post('/home/reservations', [ReservationController::class, 'store'])->name('client.reservations.store');
     Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('client.restaurant.show');
 });
 Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
