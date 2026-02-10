@@ -9,7 +9,13 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['user_id', 'resaurant_id', 'date_reservation'];
+   protected $fillable = [
+        'date_reservation',
+        'heure_reservation',
+        'statut',
+        'user_id',
+        'restaurant_id',
+    ];
 
     public function client()
     {
