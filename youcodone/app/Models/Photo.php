@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
+    use HasFactory;
     protected $table = 'photos';
-    protected $fillable = ['url_photo', 'is_principal', 'restaurant_id'];
+    protected $fillable = ['url_photo',  'restaurant_id'];
 
     public function restaurant()
     {

@@ -40,6 +40,14 @@
                         class="text-[10px] font-black uppercase tracking-[3px] text-[#FF5F00] hover:text-white-500 hover:text-white transition-all">Gestion
                         Restaurants</a>
                 @endrole
+                <a href="{{ route('notifications.index') }}" class="relative">
+                    <span>🔔</span>
+                    @if (auth()->user()->unreadNotifications->count() > 0)
+                        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </span>
+                    @endif
+                </a>
             </div>
 
             <div class="hidden md:flex items-center gap-6">
@@ -75,6 +83,14 @@
                         </a>
 
                         @role('restaurateur')
+                            <a href="{{ route('notifications.index') }}" class="relative">
+                                <span>🔔</span>
+                                @if (auth()->user()->unreadNotifications->count() > 0)
+                                    <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
+                                        {{ auth()->user()->unreadNotifications->count() }}
+                                    </span>
+                                @endif
+                            </a>
                             <a href="{{ route('restaurants.create') }}"
                                 class="flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#FF5F00] hover:bg-white/5 transition-all">
                                 Ajouter Restaurant

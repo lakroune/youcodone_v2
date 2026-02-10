@@ -18,7 +18,7 @@ class PhotoFactory extends Factory
     public function definition(): array
     {
         return [
-            'url_photo' => fake()->imageUrl(),
+            'url_photo' => "photos/XH8qZHUSAAZZAUKYdNsYrx03pn656tGCxHWU6BgO.png",
             'is_principal' => fake()->boolean(),
             'restaurant_id' => Restaurant::factory(),
         ];

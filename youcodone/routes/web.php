@@ -10,7 +10,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RestaurantController;
 use App\Models\Admin;
 use App\Models\Client;
+use App\Models\Reservation;
 use App\Models\Restaurant;
+use App\Notifications\ReservationNotification;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,6 +38,7 @@ Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
     Route::resource('restaurants', RestaurantController::class);
     Route::resource('horaires', HoraireController::class);
     Route::resource('photos', PhotoController::class);
+    Route::resource('notifications', ReservationNotification::class);
     Route::get('/dashboard', [DashboardConteroller::class, 'index'])->name('restaurateur.dashboard');
 });
 

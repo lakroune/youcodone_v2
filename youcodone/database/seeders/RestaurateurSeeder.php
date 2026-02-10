@@ -13,7 +13,7 @@ class RestaurateurSeeder extends Seeder
      */
     public function run(): void
     {
-        Restaurateur::factory()->count(10)->create()->each(function ($restaurateur) {
+        Restaurateur::factory()->count(6)->create()->each(function ($restaurateur) {
             $restaurateur->assignRole('restaurateur');
         });
     }
