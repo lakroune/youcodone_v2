@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Client;
 use App\Models\Restaurateur;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
@@ -20,11 +21,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        if(Role::findByName('client')->users()->where('id', Auth::id())->exists()){
-            $user = Cli
+        if (Role::findByName('client')->users()->where('id', Auth::id())->exists()) {
+            $user = Client::find(Auth::id());
         }
-        if(Role::findByName('restaurateur')->users()->where('id', Auth::id())->exists()){
-            $user =  Restaurateur::find(Auth::id()); 
+        if (Role::findByName('restaurateur')->users()->where('id', Auth::id())->exists()) {
+            $user =  Restaurateur::find(Auth::id());
         }
         return view('profile.edit', [
             'user' => $request->user(),
