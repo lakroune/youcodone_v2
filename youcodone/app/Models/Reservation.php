@@ -12,7 +12,6 @@ class Reservation extends Model
    protected $fillable = [
         'date_reservation',
         'heure_reservation',
-        'statut',
         'user_id',
         'restaurant_id',
     ];
@@ -24,5 +23,9 @@ class Reservation extends Model
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
+    }
+    public function paiement()
+    {
+        return $this->hasOne(Paiement::class);
     }
 }

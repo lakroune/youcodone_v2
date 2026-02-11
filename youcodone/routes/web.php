@@ -35,7 +35,6 @@ Route::middleware('client')->prefix('client')->group(function () {
     Route::get('/home/favoris', [ClientConteroller::class, 'mesFavoris'])->name('client.favoris');
     Route::get('/home/reservations', [ReservationController::class, 'index'])->name('client.reservations');
     Route::get('/home/reservations/{reservation}', [ReservationController::class, 'show'])->name('client.reservations.show');
-    // { route('client.reservations.destroy
     Route::delete('/home/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('client.reservations.destroy');
     Route::post('/home/reservations', [ReservationController::class, 'store'])->name('client.reservations.store');
     Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('client.restaurant.show');

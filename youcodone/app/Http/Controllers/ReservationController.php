@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-   public function index()
-{
-    $reservations = Reservation::with(['restaurant.photos'])
-        ->where('user_id', Auth::id())
-        ->orderBy('date_reservation', 'desc') 
-        ->orderBy('heure_reservation', 'desc')
-        ->paginate(6); 
+    public function index()
+    {
+        $reservations = Reservation::with(['restaurant.photos,paiement'])
+            ->where('user_id', Auth::id())
+            ->orderBy('date_reservation', 'desc')
+            ->orderBy('heure_reservation', 'desc')
+            ->paginate(6);
 
-    return view('reservations', compact('reservations'));
-}
+        return view('reservations', compact('reservations'));
+    }
 
     public function create()
     {
@@ -36,8 +36,13 @@ class ReservationController extends Controller
         $heure = Carbon::parse($heureFormatted);
 
         $joursFr = [
-            'Sunday' => 'Dimanche', 'Monday' => 'Lundi', 'Tuesday' => 'Mardi',
-            'Wednesday' => 'Mercredi', 'Thursday' => 'Jeudi', 'Friday' => 'Vendredi', 'Saturday' => 'Samedi'
+            'Sunday' => 'Dimanche',
+            'Monday' => 'Lundi',
+            'Tuesday' => 'Mardi',
+            'Wednesday' => 'Mercredi',
+            'Thursday' => 'Jeudi',
+            'Friday' => 'Vendredi',
+            'Saturday' => 'Samedi'
         ];
         $nomJour = $joursFr[$date->format('l')];
 
