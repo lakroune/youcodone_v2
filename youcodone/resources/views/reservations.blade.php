@@ -39,7 +39,7 @@
                                 <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#FF5F00]">
                                     Date & Heure</th>
                                 <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#FF5F00]">
-                                    Statut</th>
+                                    Paiement Effectué</th>
                                 <th
                                     class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#FF5F00] text-right">
                                     Actions</th>
@@ -76,14 +76,14 @@
                                     </td>
 
                                     <td class="px-8 py-10">
-                                        @if ($reservation->payment()->count() > 0 && $reservation->payment->status == 'succeeded')
+                                        @if ($reservation->paiement()->count() === 1)
                                             <span
                                                 class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/30 text-green-500 text-[9px] font-black uppercase tracking-widest bg-green-500/5">
                                                 <span
                                                     class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                                                 Confirmée
                                             </span>
-                                        @else
+                                        @elseif ($reservation->paiement()->count() === 0)
                                             <span
                                                 class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-yellow-500/30 text-yellow-500 text-[9px] font-black uppercase tracking-widest bg-yellow-500/5">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> En Attente
@@ -94,6 +94,19 @@
                                     <td class="px-8 py-10 text-right">
                                         <div class="flex justify-end gap-4">
                                             @role('client')
+                                                @if ($reservation->paiement()->count() === 0)
+                                                    {{-- bouton paier now --}}
+                                                    <button href="{{ " " }}"
+                                                        class="p-3 bg-white/5 hover:bg-[#FF5F00] hover:text-black rounded-xl transition-all border border-white/5">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+                                                @endif
+
+
                                                 <a href="{{ route('client.restaurant.show', $reservation->restaurant) }}"
                                                     class="p-3 bg-white/5 hover:bg-[#FF5F00] hover:text-black rounded-xl transition-all border border-white/5">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -116,20 +129,22 @@
                                                 </a>
                                             @endrole
 
-                                            @if ($reservation->status != 'annule')
-                                                <form action="{{ route('client.reservations.destroy', $reservation) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Voulez-vous vraiment annuler cette invitation ?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button
-                                                        class="p-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl transition-all border border-red-500/20">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path d="M6 18L18 6M6 6l12 12" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
+                                            @if ($reservation->paiement()->count() === 0)
+                                                @role('client')
+                                                    <form action="{{ route('client.reservations.destroy', $reservation) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Voulez-vous vraiment annuler cette invitation ?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button
+                                                            class="p-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl transition-all border border-red-500/20">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path d="M6 18L18 6M6 6l12 12" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                @endrole
                                             @endif
                                         </div>
                                     </td>

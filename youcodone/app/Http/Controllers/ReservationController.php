@@ -13,7 +13,7 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::with(['restaurant.photos,paiement'])
+        $reservations = Reservation::with(['restaurant.photos', 'paiement'])
             ->where('user_id', Auth::id())
             ->orderBy('date_reservation', 'desc')
             ->orderBy('heure_reservation', 'desc')
@@ -90,6 +90,7 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+        return back()->with('success', 'Votre demande de réservation a bien été supprimée.');
     }
 }
