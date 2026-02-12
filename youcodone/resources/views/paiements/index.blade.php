@@ -69,7 +69,7 @@
                             @csrf
                             @method('POST')
                             <input type="hidden" name="montant" value="100">
-                            <input type="hidden" name="info_paiement_id" value="{{ $info_paiement->id }}">
+                            <input type="hidden" name="reservation_id" value="{{ $info_paiement->id ?? '' }}">
 
                             <div class="space-y-6">
                                 <div class="flex items-center gap-4 p-4 border border-white/10 bg-white/5 rounded-sm">

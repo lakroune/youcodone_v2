@@ -18,7 +18,7 @@ class PaiementController extends Controller
     public function index(Reservation $reservation)
     {
         $info_paiement = Reservation::with('restaurant')->find($reservation->id);
-        var_dump($info_paiement->toArray());
+
 
         return view('paiements.index', compact('info_paiement'));
     }
@@ -28,17 +28,17 @@ class PaiementController extends Controller
      */
     public function store(StorePaiementRequest $request)
     {
-        $validated = $request->validated();
+        $validated = (object) $request->validated();
         Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
-        $restaurant = Restaurant::find($validated->restaurant_id);
+        $reservation =  Reservation::find($validated->reservation_id);
         $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'mad',
                     'product_data' => [
-                        'name' => 'Réservation de Table - ',
-                        'description' => 'Référence Réservation: #' . $request->reservation_id,
+                        'name' => 'Réservation un Table de ' . $reservation->restaurant->nom_restaurant,
+                        'description' => 'Référence Réservation: #' . $reservation->id . ' - Restaurant: #' . $reservation->restaurant->id,
                     ],
                     'unit_amount' => 20000,  // 20 MAD
                 ],

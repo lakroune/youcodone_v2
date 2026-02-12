@@ -22,7 +22,7 @@ class StorePaiementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reservation_id' => 'required|exists:reservations,id',
+            'reservation_id' => 'required|min:0|numeric|exists:reservations,id',
             'montant' => 'required|numeric',
         ];
     }
