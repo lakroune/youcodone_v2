@@ -12,39 +12,29 @@ use Stripe\Checkout\Session;
 
 class PaiementController extends Controller
 {
-    /**
-     * Display the payment summary page
-     */
     public function index(Reservation $reservation)
     {
         $info_paiement = $reservation->load('restaurant');
-
         return view('paiements.index', compact('info_paiement'));
     }
 
-    /**
-     * Create Stripe Session and redirect user
-     */
     public function store(StorePaiementRequest $request)
     {
         $validated = (object) $request->validated();
-
-        // Initialize Stripe  
         Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
 
         $reservation = Reservation::with('restaurant')->findOrFail($validated->reservation_id);
 
-        // 1. Create the Stripe Checkout Session
         $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'mad',
+                    'currency' => 'eur',
                     'product_data' => [
                         'name' => 'Table Reservation: ' . $reservation->restaurant->nom_restaurant,
                         'description' => 'Reservation Ref: #' . $reservation->id,
                     ],
-                    'unit_amount' => 20000,
+                    'unit_amount' => 200,
                 ],
                 'quantity' => 1,
             ]],
@@ -58,7 +48,7 @@ class PaiementController extends Controller
                 'reservation_id' => $validated->reservation_id,
                 'stripe_session_id' => $session->id,
                 'date_paiement' => now(),
-                'montant' => $validated->montant,
+                'montant' => $validated->montant ?? 20,
                 'methode_paiement' => 'card',
                 'statut' => 'pending',
             ]);
@@ -67,17 +57,17 @@ class PaiementController extends Controller
         return redirect($session->url);
     }
 
-    /**
-     * Handle the return from Stripe after a successful payment
-     */
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
+
         if ($sessionId) {
-            $payment = Paiement::where('stripe_session_id', $sessionId)->firstOrFail()->get();
-            if ($payment && $payment->statut !== 'pending') {
+            $payment = Paiement::where('stripe_session_id', $sessionId)->first();
+
+            if ($payment && $payment->statut === 'pending') {
                 DB::transaction(function () use ($payment) {
                     $payment->update(['statut' => 'completed']);
+
                     $payment->reservation->update(['statut' => 'payee']);
                 });
             }
@@ -86,9 +76,6 @@ class PaiementController extends Controller
         return view('paiements.success');
     }
 
-    /**
-     * Handle payment cancellation
-     */
     public function cancel()
     {
         return view('paiements.cancel');

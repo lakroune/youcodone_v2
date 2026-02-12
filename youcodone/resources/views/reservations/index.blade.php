@@ -90,12 +90,12 @@
 
                                     {{-- Status --}}
                                     <td class="px-10 py-12 text-center">
-                                        @if ($reservation->paiement)
+                                        @if ($reservation->paiement->statut == 'completed')
                                             <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-green-500/20 bg-green-500/5 shadow-[0_0_15px_rgba(34,197,94,0.05)]">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                                                 <span class="text-green-500 text-[8px] font-black uppercase tracking-[2px]">Confirmée & Archivée</span>
                                             </div>
-                                        @else
+                                        @elseif ($reservation->paiement->statut == 'pending')
                                             <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-yellow-500/20 bg-yellow-500/5 shadow-[0_0_15px_rgba(234,179,8,0.05)]">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
                                                 <span class="text-yellow-500 text-[8px] font-black uppercase tracking-[2px]">En attente de fonds</span>
@@ -107,7 +107,7 @@
                                     <td class="px-10 py-12 text-right">
                                         <div class="flex justify-end items-center gap-4">
                                             @role('client')
-                                                @if (!$reservation->paiement)
+                                                @if (!$reservation->paiement->statut || $reservation->paiement->statut == 'pending')
                                                     <button onclick="openPaymentModal({{ $reservation->id }}, {{ $reservation->restaurant->prix_reservation ?? 0 }})"
                                                         class="group/btn relative px-6 py-3 bg-[#FF5F00] text-black text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all duration-300 shadow-lg shadow-[#FF5F00]/10">
                                                         Régler
@@ -120,7 +120,7 @@
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                                 </a>
 
-                                                @if (!$reservation->paiement)
+                                                @if (!$reservation->paiement->statut || $reservation->paiement->statut == 'pending')
                                                     <form action="{{ route('client.reservations.destroy', $reservation) }}" method="POST" onsubmit="return confirm('Voulez-vous révoquer cette invitation ?')">
                                                         @csrf @method('DELETE')
                                                         <button class="p-4 bg-red-500/5 hover:bg-red-500/20 text-red-500/50 hover:text-red-500 rounded-xl border border-red-500/10 transition-all duration-300">
