@@ -5,6 +5,7 @@ use App\Http\Controllers\ClientConteroller;
 use App\Http\Controllers\DashboardConteroller;
 use App\Http\Controllers\HomeConteroller;
 use App\Http\Controllers\HoraireController;
+use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
@@ -55,4 +56,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::patch('/users/{user}', [AdminDashboardConteroller::class, 'updateRole'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminDashboardConteroller::class, 'destroyUser'])->name('admin.users.destroy');
 });
+
+// Route pour lancer le paiement
+Route::get('/stripe/pay', [PaiementController::class, 'createSession'])->name('payment.checkout');
+
+// Routes de retour après paiement
+Route::get('/stripe/success', [PaiementController::class, 'success'])->name('payment.success');
+Route::get('/stripe/cancel', [PaiementController::class, 'cancel'])->name('payment.cancel');
 require __DIR__ . '/auth.php';

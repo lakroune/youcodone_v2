@@ -19,7 +19,7 @@ class ReservationController extends Controller
             ->orderBy('heure_reservation', 'desc')
             ->paginate(6);
 
-        return view('reservations', compact('reservations'));
+        return view('reservations.index', compact('reservations'));
     }
 
     public function create()
