@@ -4,80 +4,57 @@ namespace App\Http\Controllers;
 
 use App\Models\Paiement;
 use App\Http\Requests\StorePaiementRequest;
-use App\Http\Requests\UpdatePaiementRequest;
+use App\Models\Reservation;
+use Illuminate\Http\Request;
 use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class PaiementController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *  index function
      */
-    public function index()
+    public function index(Reservation $reservation)
     {
-        return view('paiements.index');
+        return view('paiements.index', compact('reservation'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Création de la session Stripe
      */
     public function store(StorePaiementRequest $request)
     {
         Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
-        $session = \Stripe\Checkout\Session::create([
+
+        $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'mad',
                     'product_data' => [
                         'name' => 'Réservation de Table - Gastronomie',
+                        'description' => 'Référence Réservation: #' . $request->reservation_id,
                     ],
-                    'unit_amount' => 20000,
+                    'unit_amount' => 20000,  // 20 MAD
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('payment.index/1'),
-            'cancel_url' => route('payment.index'),
+            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('paiement.cancel'),
         ]);
+
+        // 
+        return redirect($session->url);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Paiement $paiement)
+    public function success(Request $request)
     {
-        //
+        return view('paiements.success');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Paiement $paiement)
+    public function cancel()
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaiementRequest $request, Paiement $paiement)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Paiement $paiement)
-    {
-        //
+        return view('paiements.cancel');
     }
 }

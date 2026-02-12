@@ -31,7 +31,7 @@
                                     <span class="text-[#FF5F00] font-black">200 <small>DH</small></span>
                                 </div>
                                 <p class="text-xs text-gray-500 italic leading-relaxed">
-                                    Frais de garantie pour la séance du {{ $date ?? 'Date non définie' }} à {{ $heure ?? '00:00' }}.
+                                    Frais de garantie pour la séance du {{ $reservation->date_reservation ?? 'Date non définie' }} à {{ $reservation->heure_reservation ?? '00:00' }}.
                                 </p>
                             </div>
                         </div>
@@ -45,13 +45,12 @@
                     </div>
 
                     <!-- Formulaire de paiement -->
-                    <!-- فورم الخلاص على اليمين بنفس ستايل "Registre des Tables" -->
                     <div class="space-y-8 border-l border-white/5 pl-0 md:pl-12">
                         <h2 class="text-[#FF5F00] text-[10px] font-black tracking-[0.5em] uppercase mb-6">
                             Mode de Règlement
                         </h2>
                         
-                        <form action="{{ route('payment.stripe.store') }}" method="POST" class="space-y-10">
+                        <form action="{{ route('paiement.checkout') }}" method="POST" class="space-y-10">
                             @csrf
                             @method('POST')
                             <input type="hidden" name="amount" value="200">

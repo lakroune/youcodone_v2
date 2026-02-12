@@ -39,9 +39,10 @@ Route::middleware('client')->prefix('client')->group(function () {
     Route::delete('/home/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('client.reservations.destroy');
     Route::post('/home/reservations', [ReservationController::class, 'store'])->name('client.reservations.store');
     Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('client.restaurant.show');
-    Route::get('/paiement/stripe/{restaurant}', [PaiementController::class, 'index'])->name('payment.stripe');
-    Route::post('/payment/stripe', [PaiementController::class, 'store'])->name('payment.stripe.store');
-    Route::get('/payment/stripe/cancel', [PaiementController::class, 'cancel'])->name('payment.cancel');
+    Route::get('/paiement/stripe/{reservation}', [PaiementController::class, 'index'])->name('paiement.stripe');
+    Route::post('/paiement/checkout', [PaiementController::class, 'store'])->name('paiement.checkout');
+    Route::get('/paiement/success', [PaiementController::class, 'success'])->name('paiement.success');
+    Route::get('/paiement/cancel', [PaiementController::class, 'cancel'])->name('paiement.cancel');
 });
 Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
     Route::resource('restaurants', RestaurantController::class);
