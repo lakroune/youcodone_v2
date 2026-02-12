@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Paiement;
 use App\Http\Requests\StorePaiementRequest;
 use App\Models\Reservation;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
@@ -24,15 +25,16 @@ class PaiementController extends Controller
      */
     public function store(StorePaiementRequest $request)
     {
+        $validated = $request->validated();
         Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
-
+        $restaurant = Restaurant::find($validated->restaurant_id);
         $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'mad',
                     'product_data' => [
-                        'name' => 'Réservation de Table - Gastronomie',
+                        'name' => 'Réservation de Table - ',
                         'description' => 'Référence Réservation: #' . $request->reservation_id,
                     ],
                     'unit_amount' => 20000,  // 20 MAD
@@ -40,7 +42,7 @@ class PaiementController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('paiement.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('paiement.success'), //. '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('paiement.cancel'),
         ]);
 

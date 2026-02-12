@@ -24,7 +24,7 @@
                 </p>
             </div>
 
-            <a href="{{ route('') }}" class="inline-block border border-white/20 text-white font-black px-12 py-5 uppercase tracking-[0.5em] text-[10px] hover:bg-white hover:text-black transition-all duration-700">
+            <a href="{{ route('client.reservations') }}" class="inline-block border border-white/20 text-white font-black px-12 py-5 uppercase tracking-[0.5em] text-[10px] hover:bg-white hover:text-black transition-all duration-700">
                 Retour à l'Accueil
             </a>
         </div>

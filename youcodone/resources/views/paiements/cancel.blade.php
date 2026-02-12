@@ -26,7 +26,7 @@
                 <a href="{{ url()->previous() }}" class="bg-[#FF5F00] text-black font-black px-10 py-5 uppercase tracking-[0.4em] text-[10px] hover:bg-white transition-all">
                     Réessayer le paiement
                 </a>
-                <a href="/" class="border border-white/10 text-gray-500 font-black px-10 py-5 uppercase tracking-[0.4em] text-[10px] hover:border-white hover:text-white transition-all">
+                <a href="{{ route('client.reservations') }}" class="border border-white/10 text-gray-500 font-black px-10 py-5 uppercase tracking-[0.4em] text-[10px] hover:border-white hover:text-white transition-all">
                     Abandonner
                 </a>
             </div>

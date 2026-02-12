@@ -22,7 +22,18 @@ class StorePaiementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'reservation_id' => 'required|exists:reservations,id',
+            'montant' => 'required|numeric',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'reservation_id.required' => 'La reservation est obligatoire.',
+            'reservation_id.exists' => 'La reservation n\'existe pas.',
+            'montant.required' => 'Le montant est obligatoire.',
+            'montant.numeric' => 'Le montant doit etre un nombre.',
         ];
     }
 }
