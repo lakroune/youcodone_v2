@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('date_paiement');
             $table->float('montant');
+            $table->string('statut')->default("pending");
+            $table->string('stripe_session_id');
             $table->string('methode_paiement');
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
             $table->timestamps();
