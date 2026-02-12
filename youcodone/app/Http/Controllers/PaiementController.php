@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Paiement;
 use App\Http\Requests\StorePaiementRequest;
 use App\Http\Requests\UpdatePaiementRequest;
+use Stripe\Stripe;
 
 class PaiementController extends Controller
 {
@@ -13,7 +14,7 @@ class PaiementController extends Controller
      */
     public function index()
     {
-        //
+        return view('paiements.index');
     }
 
     /**
@@ -29,7 +30,23 @@ class PaiementController extends Controller
      */
     public function store(StorePaiementRequest $request)
     {
-        //
+        Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'mad',
+                    'product_data' => [
+                        'name' => 'Réservation de Table - Gastronomie',
+                    ],
+                    'unit_amount' => 20000,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('payment.index/1'),
+            'cancel_url' => route('payment.index'),
+        ]);
     }
 
     /**

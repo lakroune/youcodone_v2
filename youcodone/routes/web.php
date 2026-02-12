@@ -39,6 +39,9 @@ Route::middleware('client')->prefix('client')->group(function () {
     Route::delete('/home/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('client.reservations.destroy');
     Route::post('/home/reservations', [ReservationController::class, 'store'])->name('client.reservations.store');
     Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('client.restaurant.show');
+    Route::get('/paiement/stripe/{restaurant}', [PaiementController::class, 'index'])->name('payment.stripe');
+    Route::post('/payment/stripe', [PaiementController::class, 'store'])->name('payment.stripe.store');
+    Route::get('/payment/stripe/cancel', [PaiementController::class, 'cancel'])->name('payment.cancel');
 });
 Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
     Route::resource('restaurants', RestaurantController::class);
@@ -57,10 +60,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::delete('/users/{user}', [AdminDashboardConteroller::class, 'destroyUser'])->name('admin.users.destroy');
 });
 
-// Route pour lancer le paiement
-Route::get('/stripe/pay', [PaiementController::class, 'createSession'])->name('payment.checkout');
 
-// Routes de retour après paiement
-Route::get('/stripe/success', [PaiementController::class, 'success'])->name('payment.success');
-Route::get('/stripe/cancel', [PaiementController::class, 'cancel'])->name('payment.cancel');
 require __DIR__ . '/auth.php';
