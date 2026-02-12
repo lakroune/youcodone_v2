@@ -17,7 +17,10 @@ class PaiementController extends Controller
      */
     public function index(Reservation $reservation)
     {
-        return view('paiements.index', compact('reservation'));
+        $info_paiement = Reservation::with('restaurant')->find($reservation->id);
+        var_dump($info_paiement->toArray());
+
+        return view('paiements.index', compact('info_paiement'));
     }
 
     /**

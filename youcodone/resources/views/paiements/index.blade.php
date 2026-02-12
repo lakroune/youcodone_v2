@@ -26,24 +26,37 @@
                             </h2>
                             <div class="space-y-4">
                                 <div class="flex justify-between items-baseline">
-                                    <span class="text-xl text-white italic">Réservation Table</span>
+                                    <span class="text-xl text-white italic">Réservation Table </span>
                                     <span class="text-[#FF5F00] font-black">200 <small>DH</small></span>
                                 </div>
                                 <p class="text-xs text-gray-500 italic leading-relaxed">
                                     Frais de garantie pour la séance du
-                                    {{ $reservation->date_reservation ?? 'Date non définie' }} à
-                                    {{ $reservation->heure_reservation ?? '00:00' }}.
+                                    {{ $info_paiement->date_reservation ?? 'Date non définie' }} à
+                                    {{ $info_paiement->heure_reservation ?? '00:00' }}.
                                 </p>
                             </div>
                         </div>
 
                         <div class="pt-8 border-t border-white/5">
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] uppercase tracking-[3px] text-gray-400">Total à payer</span>
+                                <span class="text-[10px] uppercase tracking-[3px] text-gray-400 w-1/2">avance pour
+                                    garder une place (table)</span>
                                 <span class="text-4xl font-black text-white italic">200.00 <small
                                         class="text-sm text-[#FF5F00]">DH</small></span>
                             </div>
+                            <div class="text-right"> <span
+                                    class="text-[9px] text-gray-500 uppercase tracking-widest italic">Montant à régler
+                                </span> </div>
                         </div>
+                        {{-- nom restaurant --}}
+                        <div class="pt-8 border-t border-white/5">
+                            <div class="flex justify-between items-center"> <span
+                                    class="text-[10px] uppercase tracking-[3px] text-gray-400 w-1/2">au
+                                    restaurant</span> <span
+                                    class="text-1xl font-black text-white italic">{{ $info_paiement->restaurant->nom_restaurant ?? 'Nom non défini' }}
+                                    <small class="text-sm text-[#FF5F00]"></small></span> </div>
+                        </div>
+
                     </div>
 
                     <!-- Formulaire de paiement -->
@@ -56,7 +69,7 @@
                             @csrf
                             @method('POST')
                             <input type="hidden" name="montant" value="100">
-                            <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+                            <input type="hidden" name="info_paiement_id" value="{{ $info_paiement->id }}">
 
                             <div class="space-y-6">
                                 <div class="flex items-center gap-4 p-4 border border-white/10 bg-white/5 rounded-sm">
