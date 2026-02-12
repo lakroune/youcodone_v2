@@ -52,7 +52,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-    
+
         @keyframes scroll-film {
             0% {
                 transform: translateX(0);
