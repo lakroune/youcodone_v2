@@ -6,13 +6,19 @@ use App\Models\Reservation;
 use App\Models\Horaire;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Mail\PaymentSuccessMail;
+use App\Mail\ReservationMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $reservation = Reservation::findOrFail(1);
+        // Mail::to("ismaillakroune03@gmail.com")->send(new PaymentSuccessMail($reservation));
         $reservations = Reservation::with(['restaurant.photos', 'paiement'])
             ->where('user_id', Auth::id())
             ->orderBy('date_reservation', 'desc')

@@ -16,12 +16,21 @@ use App\Models\Client;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Notifications\ReservationNotification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
-
+Route::get('/test-mail', function () {
+    $paiement = \App\Models\Paiement::first();
+    try {
+        Mail::to('wobota3674@2insp.com')->send(new \App\Mail\PaymentSuccessMail($paiement));
+        return "L'email a été envoyé !";
+    } catch (\Exception $e) {
+        return "Erreur : " . $e->getMessage();
+    }
+});
 Route::middleware('auth')->prefix('auth')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
