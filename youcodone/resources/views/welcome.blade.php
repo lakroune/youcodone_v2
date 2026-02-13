@@ -107,7 +107,7 @@
         <!-- Decorative elements -->
         <div class="absolute top-10 left-10">
             <div class="w-20 h-20 border border-white/10 rounded-full flex items-center justify-center">
-                <span class="text-cibo-orange font-serif italic text-2xl">C</span>
+                <span class="text-cibo-orange font-serif italic text-2xl">Y</span>
             </div>
         </div>
 
@@ -141,11 +141,11 @@
             <div class="mb-16 animate-fade-in">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-10 h-10 rounded-full border-2 border-cibo-orange/30 flex items-center justify-center">
-                        <span class="text-cibo-orange font-serif italic text-xl font-bold">C</span>
+                        <span class="text-cibo-orange font-serif italic text-xl font-bold">Y</span>
                     </div>
                     <div>
                         <h2 class="text-white text-2xl font-serif font-bold italic tracking-tight">
-                            Cibo <span class="text-cibo-orange">Gustoso</span>
+                            Youcod <span class="text-cibo-orange">'one</span>
                         </h2>
                     </div>
                 </div>
