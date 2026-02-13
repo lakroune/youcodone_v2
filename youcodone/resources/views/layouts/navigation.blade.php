@@ -86,23 +86,70 @@
             <div class="hidden md:flex items-center gap-6">
 
                 @role('restaurateur')
-                    <!-- Notification Bell -->
-                    <a href="{{ route('notifications.index') }}" class="relative group">
-                        <div
-                            class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#FF6B35]/50 transition-all duration-300">
-                            <svg class="w-4 h-4 text-gray-400 group-hover:text-[#FF6B35] transition-colors" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
+                    <!-- Notification System -->
+                    <div class="relative" x-data="{ showNotifs: false }">
+                        <button @click="showNotifs = !showNotifs" @click.away="showNotifs = false"
+                            class="relative group outline-none">
+                            <div
+                                class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#FF6B35]/50 transition-all duration-300">
+                                <svg class="w-4 h-4 text-gray-400 group-hover:text-[#FF6B35] transition-colors"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                            </div>
+
+                            @if (auth()->user()->unreadNotifications->count() > 0)
+                                <span
+                                    class="absolute -top-1 -right-1 w-5 h-5 bg-[#FF6B35] text-black text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            @endif
+                        </button>
+
+                        <!-- Dropdown الإشعارات -->
+                        <div x-show="showNotifs" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            class="absolute right-0 mt-4 w-80 bg-[#111] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden">
+
+                            <div class="px-4 py-3 border-b border-white/5 flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Dernières
+                                    Notifications</span>
+                                <a href="{{ route('notifications.index') }}"
+                                    class="text-[9px] text-[#FF6B35] hover:underline">Voir tout</a>
+                            </div>
+
+                            <div class="max-h-64 overflow-y-auto">
+                                @forelse(auth()->user()->unreadNotifications->take(5) as $notification)
+                                    <div
+                                        class="px-4 py-3 hover:bg-white/5 border-b border-white/5 transition-colors relative group">
+                                        <p class="text-xs text-gray-300">
+                                            <span class="text-[#FF6B35] font-bold">Nouveau client:</span>
+                                            {{ $notification->data['client_name'] }}
+                                        </p>
+                                        <p class="text-[10px] text-gray-500 mt-1 italic">
+                                            {{ $notification->data['date'] }} à {{ $notification->data['time'] }}
+                                        </p>
+
+                                        <form action="{{ route('notifications.read', $notification->id) }}" method="POST"
+                                            class="mt-2">
+                                            @csrf
+                                            <button type="submit"
+                                                class="text-[9px] text-gray-400 hover:text-white flex items-center gap-1">
+                                                <span class="w-1.5 h-1.5 bg-[#FF6B35] rounded-full"></span>
+                                                Marquer comme lu
+                                            </button>
+                                        </form>
+                                    </div>
+                                @empty
+                                    <div class="px-4 py-8 text-center">
+                                        <p class="text-xs text-gray-500 italic">Aucune nouvelle notification</p>
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
-                        @if (auth()->user()->unreadNotifications->count() > 0)
-                            <span
-                                class="absolute -top-1 -right-1 w-5 h-5 bg-[#FF6B35] text-black text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
-                                {{ auth()->user()->unreadNotifications->count() }}
-                            </span>
-                        @endif
-                    </a>
+                    </div>
                 @endrole
 
                 <!-- User Dropdown -->

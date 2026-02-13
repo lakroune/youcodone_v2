@@ -13,6 +13,7 @@ class Reservation extends Model
         'date_reservation',
         'heure_reservation',
         'user_id',
+        'statut',
         'restaurant_id',
     ];
 

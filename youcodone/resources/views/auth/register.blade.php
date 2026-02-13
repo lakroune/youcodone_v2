@@ -42,10 +42,10 @@
             <div class="absolute top-12 left-12 text-white z-10">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full border-2 border-[#FF6B35]/30 flex items-center justify-center">
-                        <span class="text-[#FF6B35] font-serif italic text-xl font-bold">C</span>
+                        <span class="text-[#FF6B35] font-serif italic text-xl font-bold">Y</span>
                     </div>
                     <div>
-                        <h1 class="text-xl font-serif font-bold italic tracking-tight">Cibo <span class="text-[#FF6B35]">Gustoso</span></h1>
+                        <h1 class="text-xl font-serif font-bold italic tracking-tight">YOUCO <span class="text-[#FF6B35]">DONE</span></h1>
                     </div>
                 </div>
             </div>
@@ -115,8 +115,8 @@
                             <select id="role" name="role" required
                                 class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-4 pl-12 text-sm text-white cibo-input transition-all cursor-pointer font-sans appearance-none">
                                 <option value="" disabled selected class="text-gray-600">Sélectionnez votre profil...</option>
-                                <option value="client" class="bg-[#111]">🍽️ Client - Je veux réserver</option>
-                                <option value="restaurateur" class="bg-[#111]">🏪 Restaurateur - Je gère un établissement</option>
+                                <option value="client" class="bg-[#111]">je suis un client </option>
+                                <option value="restaurateur" class="bg-[#111]">je suis un restaurateur </option>
                             </select>
                             <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -180,7 +180,7 @@
                 <!-- Footer -->
                 <div class="mt-12 text-center">
                     <p class="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-sans">
-                        © {{ date('Y') }} Cibo Gustoso — L'art de la gastronomie
+                        © {{ date('Y') }} youcodone. Tous droits réservés.
                     </p>
                 </div>
 

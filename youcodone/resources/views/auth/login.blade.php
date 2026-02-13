@@ -31,10 +31,10 @@
             <div class="absolute top-12 left-12 text-white z-10">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full border-2 border-[#FF6B35]/30 flex items-center justify-center">
-                        <span class="text-[#FF6B35] font-serif italic text-xl font-bold">C</span>
+                        <span class="text-[#FF6B35] font-serif italic text-xl font-bold">Y</span>
                     </div>
                     <div>
-                        <h1 class="text-xl font-serif font-bold italic tracking-tight">Cibo <span class="text-[#FF6B35]">Gustoso</span></h1>
+                        <h1 class="text-xl font-serif font-bold italic tracking-tight">YOUCO <span class="text-[#FF6B35]">DONE</span></h1>
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                 <!-- Footer -->
                 <div class="mt-12 text-center">
                     <p class="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-sans">
-                        © {{ date('Y') }} Cibo Gustoso
+                        © {{ date('Y') }} youcodone. Tous droits réservés.
                     </p>
                 </div>
                 

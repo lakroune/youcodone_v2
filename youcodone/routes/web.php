@@ -5,6 +5,7 @@ use App\Http\Controllers\ClientConteroller;
 use App\Http\Controllers\DashboardConteroller;
 use App\Http\Controllers\HomeConteroller;
 use App\Http\Controllers\HoraireController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
@@ -50,6 +51,8 @@ Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
     Route::resource('photos', PhotoController::class);
     Route::resource('notifications', ReservationNotification::class);
     Route::get('/dashboard', [DashboardConteroller::class, 'index'])->name('restaurateur.dashboard');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
 
 Route::middleware('admin')->prefix('admin')->group(function () {

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Paiement;
 use App\Models\Reservation;
 use App\Http\Requests\StorePaiementRequest;
+use App\Models\Restaurant;
+use App\Models\Restaurateur;
+use App\Models\User;
+use App\Notifications\ReservationNotification;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -56,26 +61,39 @@ class PaiementController extends Controller
 
         return redirect($session->url);
     }
-
+    /**
+     * Handles the successful redirection from Stripe.
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
-
-        if ($sessionId) {
-            $payment = Paiement::where('stripe_session_id', $sessionId)->first();
-
-            if ($payment && $payment->statut === 'pending') {
-                DB::transaction(function () use ($payment) {
-                    $payment->update(['statut' => 'completed']);
-
-                    $payment->reservation->update(['statut' => 'payee']);
+        if (!$sessionId) {
+            return redirect()->route('home')->with('error', 'error de paiement');
+        }
+        $payment = Paiement::where('stripe_session_id', $sessionId)->firstOrFail();
+        $reservation = Reservation::with('restaurant')->findOrFail($payment->reservation_id);
+        $restaurateur = Restaurateur::findOrFail($reservation->restaurant->user_id);
+        if ($payment->statut === 'pending') {
+            try {
+                DB::transaction(function () use ($payment, $reservation, $restaurateur) {
+                    $payment->update([
+                        'statut' => 'completed'
+                    ]);
+                    $reservation->update([
+                        'statut' => 'payee'
+                    ]);
+                    $restaurateur->notify(new ReservationNotification($reservation));
                 });
+            } catch (Exception $e) {
+                return redirect()->route('paiement.cancel')->with('error', 'error de paiement.');
             }
         }
 
-        return view('paiements.success');
+        return view('paiements.success', compact('payment', 'reservation'));
     }
-
     public function cancel()
     {
         return view('paiements.cancel');
