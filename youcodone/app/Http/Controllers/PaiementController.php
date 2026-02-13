@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Paiement;
 use App\Models\Reservation;
 use App\Http\Requests\StorePaiementRequest;
-use App\Models\Restaurant;
+use App\Mail\PaymentSuccessMail;
 use App\Models\Restaurateur;
-use App\Models\User;
 use App\Notifications\ReservationNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
@@ -76,7 +76,7 @@ class PaiementController extends Controller
         $payment = Paiement::where('stripe_session_id', $sessionId)->firstOrFail();
         $reservation = Reservation::with('restaurant')->findOrFail($payment->reservation_id);
         $restaurateur = Restaurateur::findOrFail($reservation->restaurant->user_id);
-        // if ($payment->statut === 'pending') {
+        if ($payment->statut === 'pending') {
             try {
                 DB::transaction(function () use ($payment, $reservation, $restaurateur) {
                     $payment->update([
@@ -86,11 +86,12 @@ class PaiementController extends Controller
                         'statut' => 'payee'
                     ]);
                     $restaurateur->notify(new ReservationNotification($reservation));
+                    Mail::to(user()->email)->send(new PaymentSuccessMail($payment));
                 });
             } catch (Exception $e) {
                 return redirect()->route('paiement.cancel')->with('error', 'error de paiement.');
             }
-        // }
+        }
 
         return view('paiements.success', compact('payment', 'reservation'));
     }
