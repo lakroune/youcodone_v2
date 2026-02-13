@@ -12,16 +12,16 @@
                         <!-- Icône/Logo stylisé -->
                         <div
                             class="w-10 h-10 rounded-full border-2 border-[#FF6B35]/30 flex items-center justify-center group-hover:border-[#FF6B35] transition-all duration-300">
-                            <span class="text-[#FF6B35] font-bold text-lg italic">C</span>
+                            <span class="text-[#FF6B35] font-bold text-lg italic">Y</span>
                         </div>
                         <div class="flex flex-col">
                             <span
                                 class="text-white text-xl font-bold italic tracking-tight leading-none group-hover:text-[#FF6B35] transition-colors duration-300">
-                                Cibo
+                                YOUCOD
                             </span>
                             <span
                                 class="text-[#FF6B35] text-[10px] font-bold uppercase tracking-[0.3em] group-hover:text-white transition-colors duration-300">
-                                Gustoso
+                               ONE
                             </span>
                         </div>
                     </div>
