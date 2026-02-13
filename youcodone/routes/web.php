@@ -52,6 +52,7 @@ Route::middleware(['restaurateur'])->prefix('restaurateur')->group(function () {
     Route::resource('notifications', ReservationNotification::class);
     Route::get('/dashboard', [DashboardConteroller::class, 'index'])->name('restaurateur.dashboard');
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/', [NotificationController::class, 'markAsRead'])->name('notifications.readall');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
 

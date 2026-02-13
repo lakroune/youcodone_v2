@@ -76,7 +76,7 @@ class PaiementController extends Controller
         $payment = Paiement::where('stripe_session_id', $sessionId)->firstOrFail();
         $reservation = Reservation::with('restaurant')->findOrFail($payment->reservation_id);
         $restaurateur = Restaurateur::findOrFail($reservation->restaurant->user_id);
-        if ($payment->statut === 'pending') {
+        // if ($payment->statut === 'pending') {
             try {
                 DB::transaction(function () use ($payment, $reservation, $restaurateur) {
                     $payment->update([
@@ -90,7 +90,7 @@ class PaiementController extends Controller
             } catch (Exception $e) {
                 return redirect()->route('paiement.cancel')->with('error', 'error de paiement.');
             }
-        }
+        // }
 
         return view('paiements.success', compact('payment', 'reservation'));
     }

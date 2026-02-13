@@ -42,8 +42,8 @@ class ReservationNotification extends Notification
         $client = Client::findOrFail($this->reservation->user_id);
         return [
             'reservation_id' => $this->reservation->id,
-            'client_name' => $client->id,
-            'message' => 'New reservation confirmed and paid.',
+            'client_name' => $client->username,
+            'message' => 'nouvelle reservation payee',
             'date' => $this->reservation->date_reservation,
             'time' => $this->reservation->heure_reservation,
         ];
