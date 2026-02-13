@@ -86,7 +86,7 @@ class PaiementController extends Controller
                         'statut' => 'payee'
                     ]);
                     $restaurateur->notify(new ReservationNotification($reservation));
-                    Mail::to(user()->email)->send(new PaymentSuccessMail($payment));
+                    Mail::to(auth()->user()->email)->send(new PaymentSuccessMail($payment));
                 });
             } catch (Exception $e) {
                 return redirect()->route('paiement.cancel')->with('error', 'error de paiement.');
