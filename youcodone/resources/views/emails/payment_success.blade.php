@@ -395,7 +395,7 @@
                 <a href="#">ig</a>
             </div>
             <p style="color: #555555; font-size: 10px; margin-top: 20px;">
-                © {{ date('Y') }} Cibo Gustoso. Tous droits réservés.
+                © {{ date('Y') }} youcodone. Tous droits réservés.
             </p>
         </div>
     </div>

@@ -94,7 +94,7 @@
                                         <td class="px-8 py-8">
                                             <div class="space-y-2">
                                                 <p class="text-white font-serif text-2xl italic">
-                                                    {{ \Carbon\Carbon::parse($reservation->date_reservation)->translatedFormat('d MMMM Y') }}
+                                                    {{ \Carbon\Carbon::parse($reservation->date_reservation)->translatedFormat('d M Y') }}
                                                 </p>
                                                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#FF6B35]/10 rounded-full border border-[#FF6B35]/20">
                                                     <svg class="w-3 h-3 text-[#FF6B35]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
